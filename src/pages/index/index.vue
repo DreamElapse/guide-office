@@ -1,14 +1,16 @@
 <template>
-  <div class="home">
-    <div class="bottom-text">操作指引：点击首页 -- 选择查询主列表 -- 选择所属部门 -- 选择列表内容查看办事指南</div>
+  <div class="index">
+    <nav-box></nav-box>
+    <router-view></router-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   // import * as Helpers from './modules/helpers'
   // import API from '@api'
+  import NavBox from '@components/nav-box/nav-box'
 
-  const PAGE_NAME = 'HOME'
+  const PAGE_NAME = 'INDEX'
   const TITLE = '首页'
 
   export default {
@@ -17,7 +19,7 @@
       title: TITLE
     },
     components: {
-      
+      NavBox
     },
     data() {
       return {
@@ -45,20 +47,14 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~@design"
 
-  .home
+  .index
     width: 100vw
     height: 100vw
-    display: flex
-    flex-direction: column
-    align-items: center
-    justify-content: space-between
-    padding: 27.59vh 0 3.33vh
+    background: #0199fd
     box-sizing: border-box
+    position: relative
         
-    .bottom-text
-      font-size: 1.61vw
-      color: #005EED
-      text-shadow: 0 0 1px #FFF
+
   .bottom
     bottom: 20px
 </style>

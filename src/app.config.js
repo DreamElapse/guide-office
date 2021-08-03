@@ -1,5 +1,5 @@
 /* eslint-disable */
 module.exports = {
-  title: 'view-data',
+  title: 'guide-office',
   description: 'A description of project!'
 }

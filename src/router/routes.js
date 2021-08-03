@@ -1,9 +1,18 @@
 export default [
   // 铁路餐饮
   {
-    path: '/home',
-    name: 'home',
-    component: () => import('@pages/home/home')
+    path: '/',
+    name: 'index',
+    component: () => import('@pages/index/index'),
+    redirect: '/home',
+    children: [
+      {
+        path: 'home',
+        name: 'home',
+        component: () => import('@pages/home/home')
+      }
+
+    ]
   },
   
 
