@@ -36,9 +36,6 @@ to: "src/pages/<%= h.inflection.dasherize(name) %>/<%= h.inflection.dasherize(na
   @import "~@design"
 
   .<%= h.inflection.dasherize(name.replace('_', '')) %>
-    width: 100%
-    background: url("https://minicart.oss-cn-shanghai.aliyuncs.com/shejian_dataview/bg.png")
-    background-size: 100% 100%
+    width: 100vw
     height: 100vh
-    overflow: hidden
 </style>

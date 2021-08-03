@@ -5,7 +5,7 @@ before: "todo"
 ---
   // <%= title %>
   {
-    path: '/<%= name %>',
+    path: '<%= name %>',
     name: '<%= name %>',
     component: () => import('@pages/<%= name %>/<%= name %>')
   },

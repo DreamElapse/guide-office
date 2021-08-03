@@ -49,10 +49,11 @@
 
   .index
     width: 100vw
-    height: 100vw
+    height: 100vh
     background: #0199fd
     box-sizing: border-box
     position: relative
+    overflow: hidden
         
 
   .bottom

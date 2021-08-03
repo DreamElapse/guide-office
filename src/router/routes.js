@@ -10,13 +10,18 @@ export default [
         path: 'home',
         name: 'home',
         component: () => import('@pages/home/home')
-      }
-
+      },
+      // 搜索结果
+      {
+        path: 'search-list',
+        name: 'search-list',
+        component: () => import('@pages/search-list/search-list')
+      },
+      
+      // todo 保留此处用于自动生成页面，勿删
     ]
   },
-  
 
-  // todo 保留此处勿删
   {
     path: '/',
     redirect: '/home',
