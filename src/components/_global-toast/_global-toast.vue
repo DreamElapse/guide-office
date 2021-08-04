@@ -19,7 +19,7 @@
         if (!content) return
         this.content = content
         this.showToast = true
-        const showTime = time || 2000
+        const showTime = time || 1500
         setTimeout(() => {
           this.showToast = false
         }, showTime)
@@ -38,18 +38,18 @@
     z-index: 9999
     top: 30%
     padding: 1vh 1vw
-    border-radius: 6px
+    border-radius: 0.5vw
     transition: all .5s ease-out
     text-align: center
-    background-color: rgba(255,255,255, 1)
+    background-color: rgba(40,40,40,0.9)
     .content
-      min-width :150px
-      max-width :260px
+      min-width: 12vw
+      max-width: 30vw
       text-align: center
       font-family: $font-family-regular
-      line-height: 16px
-      font-size: 1vw
-      color: #333
+      line-height: 2vw
+      font-size: 1.2vw
+      color: #f1f1f1
       word-break :break-all
 
 </style>

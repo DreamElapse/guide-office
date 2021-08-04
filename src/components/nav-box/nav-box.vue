@@ -72,13 +72,13 @@
     box-sizing: border-box
     z-index: 100
    .left-nav
-      width: 6.25vw
+      width: 6.6vw
       display: flex  
       flex-direction: column
       align-items: center
       .left-btn
-        width: 6.25vw
-        height: 6.25vw
+        width: 6.6vw
+        height: 6.6vw
         display: flex
         flex-direction: column
         align-items: center
@@ -105,7 +105,7 @@
       align-items: center
       height: 3.22vw
       position: absolute
-      left: 10.1vw
+      left: 10.6vw
       top: 3.13vw
       .nav-item
         width: 12.46vw

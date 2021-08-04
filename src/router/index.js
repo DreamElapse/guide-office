@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import store from '@state/store'
+// import store from '@state/store'
 import VueRouter from 'vue-router'
 import VueMeta from 'vue-meta'
 import NProgress from 'nprogress/nprogress'
@@ -27,9 +27,10 @@ router.beforeEach((routeTo, routeFrom, next) => {
   if (routeFrom.name !== null) {
     NProgress.start()
   }
-  store.dispatch('global/getBaseList').then(res => {
-    next()
-  })
+  next()
+  // store.dispatch('global/getData').then(res => {
+  //   next()
+  // })
 })
 
 router.beforeResolve(async (routeTo, routeFrom, next) => {

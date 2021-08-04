@@ -3,12 +3,12 @@ to: "src/pages/<%= h.inflection.dasherize(name) %>/<%= h.inflection.dasherize(na
 ---
 <template>
   <div class="<%= h.inflection.dasherize(name.replace('_', '')) %>">
-    <base-page-header title="<%= title %>"> </base-page-header>
+    
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  // import * as Helpers from './modules/helpers'
+  // import * as Helpers from '@state/helpers'
   // import API from '@api'
   const PAGE_NAME = '<%=  h.inflection.dasherize(name.replace('_', '')).toUpperCase().replace(/-/g, '_')%>'
   const TITLE = '<%= title %>'

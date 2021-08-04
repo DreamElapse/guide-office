@@ -26,7 +26,7 @@
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~@design"
   div
-    background: #333
+    background: #666
     width: 100%
     height: 100vh
     padding-top: 200px
@@ -36,7 +36,7 @@
     text-align: center
   .text
     font-size: 24px
-    color: #999
+    color: #ccc
     text-align: center
     margin-top: 40px
 </style>

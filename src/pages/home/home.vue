@@ -6,16 +6,16 @@
       <div class="search-content">
         <img src="../../assets/search.png" alt="" class="search-icon">
         <span class="search-line"></span>
-        <input type="text" placeholder="请输入科室 、人员、事件进行查询" class="search-input">
+        <input v-model="keyword" type="text" placeholder="请输入科室 、人员、事件进行查询" class="search-input">
       </div>
-      <span class="search-btn">搜索</span>
+      <span class="search-btn" @click="search">搜索</span>
     </div>
     <div class="bottom-text">操作指引：点击首页 -- 选择查询主列表 -- 选择所属部门 -- 选择列表内容查看办事指南</div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  // import * as Helpers from './modules/helpers'
+  import * as Helpers from '@state/helpers'
   // import API from '@api'
 
   const PAGE_NAME = 'HOME'
@@ -31,12 +31,13 @@
     },
     data() {
       return {
-        
+        keyword: ''
       }
     },
     computed: {
       // ...Helpers.computed,
     },
+    watch: {},
     created() {
       
     },
@@ -47,7 +48,15 @@
       
     },
     methods: {
-      // ...Helpers.methods,
+      ...Helpers.globalActions,
+      search() {
+        if (!this.keyword.trim()) {
+          this.$toast.show('请输入搜索内容')
+          return
+        }
+        this.setKeyword(this.keyword)
+        this.$router.push('/search-list')
+      }
     }
   }
 </script>

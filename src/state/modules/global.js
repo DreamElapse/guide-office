@@ -1,30 +1,21 @@
-import API from "@api";
+// import API from "@api";
 
 export const state = {
-  baseList: []
+  keyword: ''
 }
 
 export const getters = {}
 
 export const mutations = {
-  SET_BASE_LIST(state, baseList) {
-    state.baseList = [...baseList]
+  SET_KEYWORD(state, keyword) {
+    state.keyword = keyword
   }
 }
 
 export const actions = {
-  getBaseList({commit}) {
-    return API.BaseData.getBaseList().then(res => {
-      if (res.error_code === 0) {
-        let list = res.data.map(item => {
-          return {
-            base_id: item.base_id,
-            base_name: item.base_name.replace('组', '')
-          }
-        })
-        // list.unshift({base_id: '', base_name: '公司整体'})
-        commit('SET_BASE_LIST', list)
-      }
-    })
+  setKeyword({commit}, keyword) {
+    console.log(123)
+    commit('SET_KEYWORD', keyword)
   }
+ 
 }

@@ -11,14 +11,12 @@ export const someMethods = mapActions('some', ['action1', 'action2'])
 
 export const globalComputed = {
   ...mapState('global', {
-    currentTitles: (state) => state.currentTitles,
-    marginBottom: (state) => state.marginBottom,
-    baseList: (state) => state.baseList
+    keyword: (state) => state.keyword
   })
 }
 export const globalMethods = {
-  ...mapMutations('global', ['SET_CURRENT_TITLES'])
+  ...mapMutations('global', ['SET_KEYWORD'])
 }
 export const globalActions = {
-  ...mapActions('global', ['SET_CURRENT_TITLES', 'getBaseList'])
+  ...mapActions('global', ['setKeyword'])
 }
