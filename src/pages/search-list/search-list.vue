@@ -16,7 +16,7 @@
           <span v-for="(title, index) in dataTitle" :key="'t'+index" class="title-name">{{title}}</span>
         </div>
         <div class="data-box">
-          <p v-for="(co, ind) in searchData" :key="'c'+ind" class="data-content">
+          <p v-for="(co, ind) in searchData" :key="'c'+ind" class="data-content" @click="toDetail(co)">
             <span v-for="(val, index) in dataValue" :key="'v'+index" class="data-value">{{co[val]}}</span>
           </p>
         </div>
@@ -49,6 +49,7 @@
         showClear: false,
         searchData: [
           {
+            id: 1,
             name: '郑苗',
             business: '科长',
             office: '行政政法科702室',
@@ -87,6 +88,9 @@
       clear() {
         this.newKeyword = ''
         this.keyword && this.setKeyword('')
+      },
+      toDetail(personnel) {
+        this.$router.push(`/personnel-message?id=${personnel.id}`)
       }
     }
   }

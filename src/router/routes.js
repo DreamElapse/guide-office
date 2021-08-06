@@ -12,7 +12,6 @@ export default [
         component: () => import('@pages/home/home')
       },
       
-      
       // todo 保留此处用于自动生成页面，勿删
     ]
   },
@@ -21,6 +20,12 @@ export default [
     path: '/search-list',
     name: 'search-list',
     component: () => import('@pages/search-list/search-list')
+  },
+  // 人员信息
+  {
+    path: '/personnel-message',
+    name: 'personnel-message',
+    component: () => import('@pages/personnel-message/personnel-message')
   },
 
   {

@@ -38,4 +38,8 @@ to: "src/pages/<%= h.inflection.dasherize(name) %>/<%= h.inflection.dasherize(na
   .<%= h.inflection.dasherize(name.replace('_', '')) %>
     width: 100vw
     height: 100vh
+    box-sizing: border-box
+    padding: 3.43vh 2.14vw
+    background: #019cfe
+    overflow: hidden
 </style>
