@@ -1,9 +1,6 @@
 <template>
   <div class="personnel-message">
-    <div class="page-header">
-      <span class="back-btn" @click="pageBack">返回</span>
-      <span class="title">{{personnel.name}}</span>
-    </div>
+    <page-header :title="personnel.name"></page-header>
     <div class="message-content">
       <span class="personnel-name">{{personnel.name}}</span>
       <div class="personnel-detail">
@@ -19,6 +16,7 @@
 <script type="text/ecmascript-6">
   // import * as Helpers from '@state/helpers'
   // import API from '@api'
+  import PageHeader from '@components/page-header/page-header'
   const PAGE_NAME = 'PERSONNEL_MESSAGE'
   const TITLE = '人员信息'
 
@@ -26,6 +24,9 @@
     name: PAGE_NAME,
     page: {
       title: TITLE
+    },
+    components: {
+      PageHeader
     },
     data() {
       return {
@@ -43,9 +44,7 @@
     },
     methods: {
       // ...Helpers.methods,
-      pageBack() {
-        this.$router.back()
-      }
+      
     }
   }
 </script>
@@ -59,29 +58,6 @@
     box-sizing: border-box
     padding: 3.43vh 2.14vw
     background: #019cfe
-    .page-header
-      height: 5.4vh
-      .back-btn
-        width: 9.66vw
-        height: 5.4vh
-        line-height: @height
-        text-align: center
-        border-radius: 1vw
-        background: #FFF
-        box-shadow: 0 0 0 0 rgba(110, 107, 107, 0.06)
-        font-size: 1.74vw
-        color: #006AF0
-        position: absolute
-        left: 2.14vw
-        top: 3.34vh
-      .title
-        text-align: center
-        height: 5.4vh
-        line-height: 5.4vh
-        font-size: 2.17vw
-        font-weight: bold
-        color: #FFF
-        display: block
     .message-content    
       margin-top: 2.3vh
       width: 100%

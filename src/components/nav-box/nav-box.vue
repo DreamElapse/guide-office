@@ -6,7 +6,7 @@
         <img v-else src="../../assets/home.png" alt="" class="icon">
         <span :class="['btn-text', {'active': (page === 'home')}]">首页</span>
       </div>
-      <div class="left-btn">
+      <div v-if="!showLogo" class="left-btn" @click="toPage('/detail')">
         <img v-if="page === 'detail'" src="../../assets/detail_active.png" alt="" class="icon">
         <img v-else src="../../assets/detail.png" alt="" class="icon">
         <span :class="['btn-text', {'active': (page === 'detail')}]">局内概况</span>
@@ -37,18 +37,24 @@
     },
     data() {
       return {
-        topBtn: TOP_BTN,
-        navIndex: ''
+        topBtn: TOP_BTN
       }
     },
     computed: {
       page() {
-        console.log(this.$route.name)
         return this.$route.name
       },
       showLogo() {
-        let arr = ['detail']
+        let arr = ['detail', 'service-platform']
         return arr.includes(this.$route.name)
+      },
+      navIndex() {
+        let name = this.$route.name
+        let navList = ['service-platform']
+        let index = navList.findIndex(item => {
+          return item === name
+        })
+        return index > -1 ? index : ''
       }
     },
     watch: {
@@ -56,8 +62,10 @@
     methods: {
       navClick(index) {
         this.navIndex = index
+      },
+      toPage(route) {
+        this.$router.push(route)
       }
-     
     }
   }
 </script>
@@ -85,8 +93,8 @@
         justify-content: center
         background: #21a5f3
         border-radius: 1vw
-        &:last-child
-          margin-top: 2.86vw
+        &:first-child
+          margin-bottom: 2.86vw
           .icon
             width: 2.86vw
             height: 2.86vw
