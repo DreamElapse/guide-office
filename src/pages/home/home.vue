@@ -16,7 +16,7 @@
 
 <script type="text/ecmascript-6">
   import * as Helpers from '@state/helpers'
-  // import API from '@api'
+  import API from '@api'
 
   const PAGE_NAME = 'HOME'
   const TITLE = '首页'
@@ -55,6 +55,7 @@
           return
         }
         this.setKeyword(this.keyword)
+        API.BaseData.searchMessage({key: this.keyword})
         this.$router.push('/search-list')
       }
     }

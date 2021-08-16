@@ -79,7 +79,7 @@
         color: #FFF
         background: #21A5F3
         font-weight: bold
-        font-size: 1.47vw
+        font-size: $font-size-14
         text-align: center
         flex: 1 1 auto
         border: 0

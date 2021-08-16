@@ -189,7 +189,7 @@
         display: flex
         justify-content: space-around
         color: #FFF
-        font-size: 1.47vw
+        font-size: $font-size-14
         font-weight: bold
       .title-name
         flex: 1
@@ -202,7 +202,7 @@
       .data-content
         height: 9vh
         line-height: 9vh
-        font-size: 1.47vw
+        font-size: $font-size-14
         color: #666
         display: flex
         justify-content: space-around

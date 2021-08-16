@@ -18,6 +18,34 @@ export default [
         component: () => import('@pages/service-platform/service-platform')
       },
 
+  // 楼层指引
+  {
+    path: 'floor-guide',
+    name: 'floor-guide',
+    component: () => import('@pages/floor-guide/floor-guide')
+  },
+
+  // 政策公告
+  {
+    path: 'announcement',
+    name: 'announcement',
+    component: () => import('@pages/announcement/announcement')
+  },
+
+  // 常见问题
+  {
+    path: 'common-question',
+    name: 'common-question',
+    component: () => import('@pages/common-question/common-question')
+  },
+
+  // 人员信息
+  {
+    path: 'personnel-info',
+    name: 'personnel-info',
+    component: () => import('@pages/personnel-info/personnel-info')
+  },
+
       // todo 保留此处用于自动生成页面，勿删
     ]
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="nav-box">
     <div class="left-nav">
-      <div class="left-btn">
+      <div class="left-btn" @click="toPage('/')">
         <img v-if="page === 'home'" src="../../assets/home_active.png" alt="" class="icon">
         <img v-else src="../../assets/home.png" alt="" class="icon">
         <span :class="['btn-text', {'active': (page === 'home')}]">首页</span>
@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="top-nav">
-      <div v-for="(item, index) in topBtn" :key="'n'+index" :class="['nav-item', {'active': navIndex === index}]">
-        {{item}}
+      <div v-for="(item, index) in topBtn" :key="'n'+index" :class="['nav-item', {'active': navIndex === index}]" @click="toPage(item.route)">
+        {{item.name}}
       </div>
     </div>
     <img v-if="showLogo" src="../../assets/logo.png" alt="" class="logo">
@@ -25,7 +25,13 @@
 <script type="text/ecmascript-6">
   const COMPONENT_NAME = 'NAV_BOX'
 
-  const TOP_BTN = ['办事平台', '楼层指引', '人员信息', '政策公告', '常见问题']
+  const TOP_BTN = [
+    {name: '办事平台', route: '/service-platform'},
+    {name: '楼层指引', route: '/floor-guide'},
+    {name: '人员信息', route: '/personnel-info'},
+    {name: '政策公告', route: '/announcement'},
+    {name: '常见问题', route: '/common-question'},
+  ]
 
   export default {
     name: COMPONENT_NAME,
@@ -45,12 +51,12 @@
         return this.$route.name
       },
       showLogo() {
-        let arr = ['detail', 'service-platform']
+        let arr = ['detail', 'service-platform', 'floor-guide', 'personnel-info', 'announcement', 'common-question']
         return arr.includes(this.$route.name)
       },
       navIndex() {
         let name = this.$route.name
-        let navList = ['service-platform']
+        let navList = ['service-platform', 'floor-guide', 'personnel-info', 'announcement', 'common-question']
         let index = navList.findIndex(item => {
           return item === name
         })
@@ -71,6 +77,7 @@
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  @import "~@design"
   .nav-box
     position: absolute
     left: 0
@@ -121,7 +128,7 @@
         border-radius: 1vw
         background: #FFF
         color: #0074F3
-        font-size: 1.47vw
+        font-size: $font-size-14
         font-weight: bold
         border: 1px solid #FFF
         margin-right: 1.93vw

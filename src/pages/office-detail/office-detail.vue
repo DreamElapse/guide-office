@@ -2,7 +2,28 @@
   <div class="office-detail">
     <page-header :title="pageTitle"></page-header>
     <div class="page-content">
-
+      <div class="top-nav">
+        <span v-for="(item, index) in navList" :key="'n'+index" :class="['nav-item', {'active':+navIndex === index}]" @click="navClick(index)">{{item}}</span>
+      </div>
+      <div v-if="navIndex === 0" class="office-context">
+        
+      </div>
+      <div v-else-if="navIndex === 1" class="content-detail">
+        <div class="personnel-title">
+          <span v-for="(item, index) in personnelTitle" :key="index" class="item" :style="{flex: item.flex}">{{item.name}}</span>
+        </div>
+        <div v-for="(item, index) in personnelData" :key="'p'+index" class="personnel-item">
+          <span class="item" style="flex: 1 ">{{index+1}}</span>
+          <span v-for="(val, ind) in personnelTitle.slice(1)" :key="'i'+ind" class="item" :style="{flex: val.flex}">{{item[val.value]}}</span>
+        </div>
+        
+      </div>
+      <div v-else class="office-show">
+        <div v-for="(item, index) in showList" :key="index" class="show-item">
+          <img :src="item.image" class="item-img" alt="">
+          <p class="item-text">{{item.text}}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -14,6 +35,70 @@
   const PAGE_NAME = 'OFFICE_DETAIL'
   const TITLE = '科室详情'
 
+  const personnelTitle = [
+    {name: '序号', value: '', flex: 1},
+    {name: '姓名', value: 'name', flex: 1},
+    {name: '照片', value: 'image', flex: 1},
+    {name: '职务', value: 'business', flex: 1},
+    {name: '岗位职责', value: 'duty', flex: 2},
+    {name: '所在办公室门牌号', value: 'office', flex: 1},
+    {name: '办公电话', value: 'tell', flex: 1}
+  ]
+
+  const personnelData = [
+    {
+      name: '卢春',
+      image: '',
+      business: '科员',
+      duty: '专管员岗位。负责政法委、市纪委监委、统战部、直属机关工委、总工会、团委、各民主党派、台办、党史研究室、侨联、妇联、政研室等单位财务管理工作。',
+      office: '702',
+      tell: '32007'
+
+    },
+    {
+      name: '卢春',
+      image: '',
+      business: '科员',
+      duty: '专管员岗位。负责政法委、市纪委监委、统战部、直属机关工委、总工会、团委、各民主党派、台办、党史研究室、侨联、妇联、政研室等单位财务管理工作。',
+      office: '702',
+      tell: '32007'
+
+    },
+    {
+      name: '卢春',
+      image: '',
+      business: '科员',
+      duty: '专管员岗位。负责政法委、市纪委监委、统战部、直属机关工委、总工会、团委、各民主党派、台办、党史研究室、侨联、妇联、政研室等单位财务管理工作。',
+      office: '702',
+      tell: '32007'
+
+    },
+    {
+      name: '卢春',
+      image: '',
+      business: '科员',
+      duty: '专管员岗位。负责政法委、市纪委监委、统战部、直属机关工委、总工会、团委、各民主党派、台办、党史研究室、侨联、妇联、政研室等单位财务管理工作。',
+      office: '702',
+      tell: '32007'
+
+    }
+  ]
+
+  const showList = [
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
+    
+  ]
+
   export default {
     name: PAGE_NAME,
     page: {
@@ -24,7 +109,11 @@
     },
     data() {
       return {
-        
+        navList: ['科室简介', '科室指南', '部门风采'],
+        personnelTitle,
+        personnelData,
+        showList,
+        navIndex: 0,
       }
     },
     computed: {
@@ -35,6 +124,9 @@
     },
     methods: {
       // ...Helpers.methods,
+      navClick(index) {
+        this.navIndex = index
+      }
     }
   }
 </script>
@@ -62,4 +154,86 @@
       flex-direction: column
       align-items: center
       overflow: hidden
+      .top-nav
+        height: 4.57vw
+        width: 100%
+        display: flex
+        align-items: center
+        border-radius: 1vw 1vw 0 0
+        overflow: hidden
+        font-size: 0
+        background: #21A5F3
+      .nav-item
+        height: 4.57vw
+        line-height: @height
+        color: #FFF
+        background: #21A5F3
+        font-weight: bold
+        font-size: $font-size-14
+        text-align: center
+        flex: 0 0 13.22vw
+        border: 0
+        &.active
+          transition: all 0.2s
+          color: #005EED
+          background: #FFF
+          box-shadow: 0 0 0 0 rgba(110, 107, 107, 0.06)
+    .content-detail
+      padding: 1vw
+      background: #FFF
+      overflow: scroll
+      .personnel-title
+        height: 9.5vh
+        background: #006AF0
+        border-radius: 1vw 1vw 0 0
+        box-shadow: 0 0 0 0 rgba(110, 107, 107, 0.06)
+        color: #FFF
+        line-height: @height
+        font-size: $font-size-14
+        font-weight: bold
+        display: flex
+        text-align: center
+      .personnel-item
+        display: flex
+        height: 11.6vw
+        margin: 0.5vw 0
+        display: flex
+        align-items: center
+        .item
+          overflow: hidden
+          text-overflow: ellipsis
+          word-break: break-all
+          font-size: 1.47vw
+          line-height: 1.4
+          color: #666
+          text-align: center
+    .office-show
+      padding: 1vw
+      background: #FFF
+      overflow: scroll
+      display: flex
+      flex-wrap: wrap
+      padding: 1.5vw 0 1.5vw 1.5vw
+      .show-item
+        height: 18vw
+        width: 13.54vw
+        margin-right: 2vw
+        overflow: hidden
+        word-break: break-all
+      .item-img
+        width: 13.54vw
+        height: 9.9vw
+        object-fit: contain
+      .item-text
+        font-size: 1.3vw
+        color: #666
+        line-height: 1.4
+        display: -webkit-box
+        overflow: hidden
+        -webkit-line-clamp: 3
+        -webkit-box-orient: vertical
+        height: 5.3vw
+
+
+      
 </style>
