@@ -9,7 +9,7 @@
         </p>
         <div :class="['nav-list', {'active': showMore}]">
           <span v-for="(item, index) in navList" :key="'n'+index" class="nav-item" @click="toDetail(item)">{{item}}</span>
-          <img src="../../assets/arrow-more.png" alt="" :class="['show-more',{'active':showMore}]" @click="showList">
+          <img src="../../assets/arrow_more.png" alt="" :class="['show-more',{'active':showMore}]" @click="showList">
         </div>
       </div>
       <div class="office-guide">
