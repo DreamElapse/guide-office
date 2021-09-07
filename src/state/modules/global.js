@@ -14,7 +14,6 @@ export const mutations = {
 
 export const actions = {
   setKeyword({commit}, keyword) {
-    console.log(123)
     commit('SET_KEYWORD', keyword)
   }
  

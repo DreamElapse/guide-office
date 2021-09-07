@@ -4,10 +4,11 @@
     <div class="message-content">
       <span class="personnel-name">{{personnel.name}}</span>
       <div class="personnel-detail">
-        <img src="" alt="" class="head-img">
-        <span class="business">{{personnel.business}}</span>
+        <img :src="personnel.PHOTOPATH" alt="" class="head-img">
+        <div class="message">{{personnel.PERSONALDETAILS}}</div>
+        <!-- <span class="business">{{personnel.business}}</span>
         <span class="msg">{{personnel.message}}</span>
-        <span class="office">{{personnel.office}}</span>
+        <span class="office">{{personnel.office}}</span> -->
       </div>
     </div>
   </div>
@@ -15,7 +16,7 @@
 
 <script type="text/ecmascript-6">
   // import * as Helpers from '@state/helpers'
-  // import API from '@api'
+  import API from '@api'
   import PageHeader from '@components/page-header/page-header'
   const PAGE_NAME = 'PERSONNEL_MESSAGE'
   const TITLE = '人员信息'
@@ -30,21 +31,31 @@
     },
     data() {
       return {
-        personnel: {
-          name: '李曜',
-          url: '',
-          business: '党组书记、局长,主持全面工作，分管预算科。',
-          message: '1966年12月出生，湖北南漳人,中南财经大学财政专业毕业，2020年2月任现职。',
-          office: '六楼局长办公室'
-        }
+        id: '',
+        personnel: {}
       }
     },
     computed: {
       // ...Helpers.computed,
     },
+    created() {
+      this.id = this.$route.query.id || ''
+      if (this.id) {
+        this.getPersonnelDetail()
+      } else {
+        this.$router.back()
+      }
+    },
     methods: {
       // ...Helpers.methods,
-      
+      getPersonnelDetail() {
+        API.Global.getPersonnelDetail({PersonID: this.id})
+          .then(res => {
+            if (+res.returnCode === 1) {
+              this.personnel = res.data
+            }
+          })
+      }
     }
   }
 </script>
@@ -101,7 +112,7 @@
         width: 12.71vw
         height: 17.4vw
         margin-bottom: 6vh
-      .business
+      .business,p:first-child
         font-weight: bold
 
         

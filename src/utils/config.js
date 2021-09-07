@@ -25,6 +25,6 @@ export const BASE_URL =
         ? DEV_URL
         : LOCAL_URL
 
-export const ERR_OK = 0
-export const TIME_OUT = 50000
-export const ERR_NO = -404
+export const ERR_OK = 1
+export const TIME_OUT = 5000
+export const ERR_NO = -1

@@ -7,6 +7,7 @@
         </div>
         <img src="../../assets/scroll_more.png" alt="" :class="['scroll-icon',{'active': !hasMore}]" @click="scrollNav">
       </div>
+      div.
     </div>
     <div class="bottom-text">操作指引：点击首页 -- 选择查询主列表 -- 选择所属部门 -- 选择列表内容查看办事指南</div>
   </div>
@@ -75,6 +76,7 @@
       background: #FFF
       border-radius: 1vw
       padding: 0.26vw
+      box-sizing: border-box
       .left-nav
         width: 9.11vw
         height: 100%

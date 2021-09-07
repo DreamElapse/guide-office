@@ -5,16 +5,20 @@
       <div class="top-nav">
         <span v-for="(item, index) in navList" :key="'n'+index" :class="['nav-item', {'active':+navIndex === index}]" @click="navClick(index)">{{item}}</span>
       </div>
-      <div v-if="navIndex === 0" class="office-context">
-        
-      </div>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <div v-if="navIndex === 0" class="office-context" v-html="officeInfo"></div>
       <div v-else-if="navIndex === 1" class="content-detail">
         <div class="personnel-title">
           <span v-for="(item, index) in personnelTitle" :key="index" class="item" :style="{flex: item.flex}">{{item.name}}</span>
         </div>
-        <div v-for="(item, index) in personnelData" :key="'p'+index" class="personnel-item">
-          <span class="item" style="flex: 1 ">{{index+1}}</span>
-          <span v-for="(val, ind) in personnelTitle.slice(1)" :key="'i'+ind" class="item" :style="{flex: val.flex}">{{item[val.value]}}</span>
+        <div class="personnel-list-box">
+          <div v-for="(item, index) in personnelData" :key="'p'+index" class="personnel-item">
+            <span class="item" style="flex: 1 ">{{index+1}}</span>
+            <p v-for="(val, ind) in personnelTitle.slice(1)" :key="'i'+ind" class="item" :style="{flex: val.flex}">
+              <img v-if="val.value === 'PHOTOPATH'" :src="item[val.value]" class="personnel-img">
+              <span v-else>{{item[val.value]}}</span>
+            </p>
+          </div>
         </div>
         
       </div>
@@ -30,19 +34,19 @@
 
 <script type="text/ecmascript-6">
   // import * as Helpers from '@state/helpers'
-  // import API from '@api'
+  import API from '@api'
   import PageHeader from '@components/page-header/page-header'
   const PAGE_NAME = 'OFFICE_DETAIL'
   const TITLE = '科室详情'
 
   const personnelTitle = [
     {name: '序号', value: '', flex: 1},
-    {name: '姓名', value: 'name', flex: 1},
-    {name: '照片', value: 'image', flex: 1},
-    {name: '职务', value: 'business', flex: 1},
-    {name: '岗位职责', value: 'duty', flex: 2},
-    {name: '所在办公室门牌号', value: 'office', flex: 1},
-    {name: '办公电话', value: 'tell', flex: 1}
+    {name: '姓名', value: 'NAME', flex: 1},
+    {name: '照片', value: 'PHOTOPATH', flex: 1},
+    {name: '职务', value: 'JOBNAME', flex: 1},
+    {name: '岗位职责', value: 'RESPONSIBILITIES', flex: 2},
+    {name: '所在办公室门牌号', value: 'ROOMNUMBER', flex: 1},
+    {name: '办公电话', value: 'TELPHONE', flex: 1}
   ]
 
   const personnelData = [
@@ -111,19 +115,48 @@
       return {
         navList: ['科室简介', '科室指南', '部门风采'],
         personnelTitle,
-        personnelData,
+        pageTitle: '',
+        officeInfo: '',
+        id: '',
+        personnelData: [],
         showList,
         navIndex: 0,
       }
     },
     computed: {
       // ...Helpers.computed,
-      pageTitle() {
-        return this.$route.query ? this.$route.query.id : ''
+      // pageTitle() {
+      //   return this.$route.query ? this.$route.query.id : ''
+      // }
+    },
+    created() {
+      this.id = this.$route.query.id || ''
+      if (this.id) {
+        this.getOfficeDetail()
+        this.getOfficePersonList()
+      } else {
+        this.$router.back()
       }
     },
     methods: {
       // ...Helpers.methods,
+      getOfficeDetail() {
+        API.Global.getOfficeDetail({OfficeID: this.id})
+          .then(res => {
+            if (+res.returnCode === 1) {
+              this.pageTitle = res.data.OFFICENAME
+              this.officeInfo = res.data.OFFICEINTRO
+            }
+          })
+      },
+      getOfficePersonList() {
+        API.Global.getOfficePersonList({OfficeID: this.id})
+          .then(res => {
+            if (+res.returnCode === 1) {
+              this.personnelData = res.data
+            }
+          })
+      },
       navClick(index) {
         this.navIndex = index
       }
@@ -155,7 +188,8 @@
       align-items: center
       overflow: hidden
       .top-nav
-        height: 4.57vw
+        height: 4.62vw
+        flex: 0 0 @height
         width: 100%
         display: flex
         align-items: center
@@ -177,14 +211,19 @@
           transition: all 0.2s
           color: #005EED
           background: #FFF
-          box-shadow: 0 0 0 0 rgba(110, 107, 107, 0.06)
+          box-shadow: 0 2px 8px 4px rgba(110, 107, 107, 0.06)
+    .office-context
+      line-height: 1.2
+      padding: 0 0.4vw
+      overflow-Y: scroll
     .content-detail
-      padding: 1vw
+      padding: 0 1vw 1vw
+      margin-top: 0.5vw
       background: #FFF
       overflow: scroll
       .personnel-title
         height: 9.5vh
-        background: #006AF0
+        background: #21A5F3
         border-radius: 1vw 1vw 0 0
         box-shadow: 0 0 0 0 rgba(110, 107, 107, 0.06)
         color: #FFF
@@ -193,20 +232,23 @@
         font-weight: bold
         display: flex
         text-align: center
+      .personnel-list-box
+        border: 1px solid #006AF0
       .personnel-item
         display: flex
-        height: 11.6vw
+        height: 13vw
         margin: 0.5vw 0
         display: flex
         align-items: center
         .item
           overflow: hidden
-          text-overflow: ellipsis
-          word-break: break-all
           font-size: 1.47vw
           line-height: 1.4
           color: #666
           text-align: center
+        .personnel-img
+          width: 7.5vw
+          height: 11.61vw
     .office-show
       padding: 1vw
       background: #FFF

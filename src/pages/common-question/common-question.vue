@@ -56,6 +56,7 @@
       background: #FFF
       border-radius: 1vw
       padding: 0.26vw
+      box-sizing: border-box
       .left-nav
         width: 9.11vw
         height: 100%

@@ -1,6 +1,30 @@
 <template>
   <div class="announcement">
-    
+    <div class="page-content">
+      <div class="left-nav">
+        <span v-for="(item, index) in navList" :key="index" :class="['nav-item',{'active':navIndex === index}]" @click="changeNav(index)">{{item}}</span>
+      </div>
+      <div class="right-content">
+        <p v-for="(item, index) in new Array(10).fill(0)" :key="'r'+index" class="message">
+          <span class="icon"></span>
+          <span class="text">{{message.text}}</span>
+          <span class="text date">{{message.date}}</span>
+        </p>
+        <div class="paganition">
+          <span class="first-page pag-btn" @click="changePage(1)">第一页</span>
+          <span class="prev-page pag-btn" @click="changePage(2)">上一页</span>
+          <span class="next-page pag-btn" @click="changePage(3)">下一页</span>
+          <span class="last-page pag-btn" @click="changePage(4)">最后一页</span>
+          <div class="page-num" @click="showNumber">
+            <div v-if="numberShow" class="page-box">
+              <p v-for="(item, index) in pageNum" :key="index" class="num-handle" @click="pageHandle(item)">{{item}}</p>
+            </div>
+            <span class="num">{{page}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-text">操作指引：点击首页 -- 选择查询主列表 -- 选择所属部门 -- 选择列表内容查看办事指南</div>
   </div>
 </template>
 
@@ -10,6 +34,8 @@
   const PAGE_NAME = 'ANNOUNCEMENT'
   const TITLE = '政策公告'
 
+  const navList = ['政策信息', '通知公告']
+
   export default {
     name: PAGE_NAME,
     page: {
@@ -17,7 +43,13 @@
     },
     data() {
       return {
-
+        navList,
+        navIndex: 0,
+        message: {text: '广东省人民政府关于加强统筹进一步深化预算管理制度改革的实施意见湛江市财政局关于政协第十三届湛江市委员会第四次会议第20200033号提案答复的函', date: '2021-06-12'},
+        page: 1,
+        totalPage: 10,
+        numberShow: false,
+        pageNum: [1, 2, 3, 4, 5, 6, 7, 8]
       }
     },
     computed: {
@@ -25,6 +57,30 @@
     },
     methods: {
       // ...Helpers.methods,
+      changeNav(index) {
+        this.navIndex = index
+      },
+      changePage(num) {
+        switch(num) {
+        case 1:
+          this.page = 1
+          return
+        case 2:
+          this.page = this.page > 1 ? this.page-1 : 1
+          return
+        case 3:
+          this.page = this.page < this.totalPage ? this.page+1 : this.totalPage
+          return
+        default:
+          this.page = this.totalPage
+        }
+      },
+      showNumber() {
+        this.numberShow = !this.numberShow
+      },
+      pageHandle(num) {
+        this.page = num
+      }
     }
   }
 </script>
@@ -39,4 +95,135 @@
     padding: 3.43vh 2.14vw
     background: #019cfe
     overflow: hidden
+    position: relative
+    .page-content
+      margin-top: 14.8vh
+      height: 72.76vh
+      background: #FFF
+      border-radius: 1vw
+      padding: 0.26vw
+      display: flex
+      box-sizing: border-box
+    .left-nav
+        width: 9.11vw
+        height: 100%
+        background: #21A5F3
+        border-radius: 1vw 0 0 1vw
+        overflow: hidden
+        flex: 0 0 9.11vw
+      .nav-item
+        width: 9.11vw
+        height: 3.44vw
+        line-height: @height
+        text-align: center
+        color: #FFF
+        font-size: 1.46vw
+        font-weight: bold
+        display: block
+        margin: 1vw 0
+        &.active
+          background: #FFF
+          color: #21A5F3
+      .right-content
+        flex: 1
+        box-sizing: border-box
+        padding: 2.77vw 3.07vw 2.5vw 1.7vw
+        overflow: hidden
+        .message
+          margin-bottom: 1.85vw
+          color: #222222
+          font-size: 1.35vw
+          display: flex
+          align-items: center
+          justify-content: space-between
+          box-sizing: border-box
+        .icon
+          width: 0.69vw
+          height: @width
+          border-radius: @width
+          margin-right: 1.55vw
+          display: block
+          background: #999
+          flex: 0 0 @width
+        .text
+          overflow: hidden
+          text-overflow: ellipsis
+          white-space: nowrap
+          flex: 1
+        .date
+          margin-left: 5.52vw
+          flex: 0 0 auto
+      .paganition
+        height: 3.44vw
+        margin-top: 2.5vw
+        display: flex
+        position: relative
+        justify-content: center
+        .pag-btn
+          width: 10.57vw
+          height: 3.44vw
+          border-radius: 1vw
+          box-shadow: 0 0 0 0 rgba(110, 107, 107, 0.06)
+          background: #FF8A01
+          color: #FFF
+          font-size: $font-size-14
+          text-align: center
+          line-height: @height
+          margin-right: 2.55vw
+        .prev-page,.next-page
+          background: #21A5F3
+        .page-num
+          display: flex
+          align-items: center
+          justify-content: center
+          position: relative
+          background: #D6DBE2
+          border-radius: 1vw
+          position: absolute
+          right: 3.02vw
+          bottom: 0
+          width: 4.85vw
+          height: 3.44vw
+        .page-box
+          position: absolute
+          bottom: 3.44vw
+          left: 0
+          height: 12vw
+          width: 4.85vw
+          background: #D6DBE2
+          border-radius: 1vw
+          font-size: $font-size-14
+          line-height: 1.4
+          text-align: center
+          color: #FFF
+          overflow: scroll
+          padding: 0.4vw 0
+          box-sizing: border-box
+        .num-handle:active
+          background: #ccc
+        .num
+          font-size: $font-size-14
+          color: #FFF
+          margin-right: 0.5vw
+        .page-num:after
+          content: ""
+          width: 0
+          height: 0
+          border: 0.84vw solid #EDF3FB
+          border-top: 0.84vw solid transparent
+          border-right: 0.6vw solid transparent
+          border-left: 0.6vw solid transparent
+          margin-top: -0.64vw
+
+
+    .bottom-text
+      font-size: 1.61vw
+      color: #005EED
+      text-shadow: #FFF 2px 0 2px,#FFF 0 2px 2px,#FFF -2px 0 2px,#FFF 0 -2px 2px
+      font-weight: bold
+      position: absolute
+      text-align: center
+      width: 100%
+      bottom: 3.33vh
+      left: 0
 </style>

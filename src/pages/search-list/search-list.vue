@@ -17,7 +17,7 @@
         </div>
         <div class="data-box">
           <p v-for="(co, ind) in searchData" :key="'c'+ind" class="data-content" @click="toDetail(co)">
-            <span v-for="(val, index) in dataValue" :key="'v'+index" class="data-value">{{co[val]}}</span>
+            <span v-for="(val, index) in dataValue" :key="'v'+index" class="data-value">{{co[val] || '---'}}</span>
           </p>
         </div>
       </div>
@@ -29,12 +29,12 @@
 
 <script type="text/ecmascript-6">
   import * as Helpers from '@state/helpers'
-  // import API from '@api'
+  import API from '@api'
   const PAGE_NAME = 'SEARCH_LIST'
   const TITLE = '搜索结果'
 
   const DATA_TITLE = ['姓名', '职务', '科室', '楼层', '办公时间', '工作内容']
-  const DATA_VALUE = ['name', 'business', 'office', 'floor', 'time', 'content']
+  const DATA_VALUE = ['NAME', 'JOBNAME', 'OFFICENAME', 'STOREYNAME', 'time', 'RESPONSIBILITIES']
 
   export default {
     name: PAGE_NAME,
@@ -47,17 +47,7 @@
         dataValue: DATA_VALUE,
         newKeyword: '',
         showClear: false,
-        searchData: [
-          {
-            id: 1,
-            name: '郑苗',
-            business: '科长',
-            office: '行政政法科702室',
-            floor: '七楼',
-            time: '10:00-19:00',
-            content: '负责科室全面工作'
-          }
-        ]
+        searchData: []
       }
     },
     computed: {
@@ -65,6 +55,9 @@
       value() {
         return this.newKeyword || this.keyword
       }
+    },
+    created() {
+      this.value && this.search()
     },
     beforeDestroy() {
       this.setKeyword('')
@@ -80,7 +73,12 @@
           this.$toast.show('请输入搜索内容')
           return
         }
-        console.log('search')
+        API.Search.searchMessage({Key: this.value})
+          .then(res => {
+            if (+res.returnCode === 1) {
+              this.searchData = res.data
+            }
+          })
       },
       back() {
         this.$router.back()
@@ -90,7 +88,7 @@
         this.keyword && this.setKeyword('')
       },
       toDetail(personnel) {
-        this.$router.push(`/personnel-message?id=${personnel.id}`)
+        this.$router.push(`/personnel-message?id=${personnel.PERSONID}`)
       }
     }
   }

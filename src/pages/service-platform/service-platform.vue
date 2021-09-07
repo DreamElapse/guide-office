@@ -8,7 +8,7 @@
           <span class="text">科室</span>
         </p>
         <div :class="['nav-list', {'active': showMore}]">
-          <span v-for="(item, index) in navList" :key="'n'+index" class="nav-item" @click="toDetail(item)">{{item}}</span>
+          <span v-for="(item, index) in navList" :key="'n'+index" class="nav-item" @click="toDetail(item.OFFICEID)">{{item.OFFICENAME}}</span>
           <img src="../../assets/arrow_more.png" alt="" :class="['show-more',{'active':showMore}]" @click="showList">
         </div>
       </div>
@@ -27,7 +27,7 @@
 
 <script type="text/ecmascript-6">
   // import * as Helpers from '@state/helpers'
-  // import API from '@api'
+  import API from '@api'
   const PAGE_NAME = 'SERVICE_PLATFORM'
   const TITLE = '办事平台'
 
@@ -53,7 +53,8 @@
     },
     data() {
       return {
-        navList: ['湛江市工程预结算审核中心', '政府采购监管科', '会计科', '机关党委', '经济建设科', '资源管理科', '湛江市财政票据服务中心', '会计科', '机关党委', '经济建设科', '资源管理科', '湛江市财政票据服务中心'],
+        // navList: ['湛江市工程预结算审核中心', '政府采购监管科', '会计科', '机关党委', '经济建设科', '资源管理科', '湛江市财政票据服务中心', '会计科', '机关党委', '经济建设科', '资源管理科', '湛江市财政票据服务中心'],
+        navList: [],
         guideList: GUIDE_LIST,
         showMore: false,
 
@@ -62,8 +63,19 @@
     computed: {
       // ...Helpers.computed,
     },
+    created() {
+      this.getOfficeList()
+    },
     methods: {
       // ...Helpers.methods,
+      getOfficeList() {
+        API.Global.getOfficeList()
+          .then(res => {
+            if (+res.returnCode === 1) {
+              this.navList = res.data
+            }
+          })
+      },
       showList() {
         this.showMore = !this.showMore
       },
@@ -123,6 +135,8 @@
         overflow: hidden
         position: relative
         transition: all 0.2s
+        background: #FFF
+        z-index: 2
         &.active
           height: auto
       .nav-item
@@ -147,6 +161,8 @@
       margin-top: 5vh
       display: flex
       padding-left: 6.45vw
+      position: absolute
+      bottom: 15vh
       .guide-box
         flex: 1
         color: #333
