@@ -26,5 +26,20 @@ export default {
         const url = `/api/GetOfficePersonByOfficeID`
         return request.post({url, data: args})
     },
+    // 科室详情-部门风采
+    getOfficeShow(args) {
+        const url = `/api/GetOfficeMienByOfficeID`
+        return request.post({url, data: args})
+    },
+    // 楼层指引-获取楼层
+    getFloor(args) {
+        const url = `/api/GetStorey`
+        return request.post({url, data: args})
+    },
+    // 楼层指引-楼层详情
+    getFloorDetail(args) {
+        const url = `/api/GetStoreyDetails`
+        return request.post({url, data: args})
+    },
     
 }

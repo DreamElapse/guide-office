@@ -33,8 +33,8 @@
   const PAGE_NAME = 'SEARCH_LIST'
   const TITLE = '搜索结果'
 
-  const DATA_TITLE = ['姓名', '职务', '科室', '楼层', '办公时间', '工作内容']
-  const DATA_VALUE = ['NAME', 'JOBNAME', 'OFFICENAME', 'STOREYNAME', 'time', 'RESPONSIBILITIES']
+  const DATA_TITLE = ['姓名', '职务', '科室', '楼层', '办公电话', '工作内容']
+  const DATA_VALUE = ['NAME', 'JOBNAME', 'OFFICENAME', 'STOREYNAME', 'TELPHONE', 'RESPONSIBILITIES']
 
   export default {
     name: PAGE_NAME,
@@ -76,7 +76,7 @@
         API.Search.searchMessage({Key: this.value})
           .then(res => {
             if (+res.returnCode === 1) {
-              this.searchData = res.data
+              this.searchData = res.data.RestData
             }
           })
       },

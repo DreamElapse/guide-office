@@ -147,6 +147,7 @@
           text-align: center
           color: #FFF
           background: #01A1FF
+          font-size: 1.3vw
         .tip
           font-size: 1.3vw
           color: #B2B2B2

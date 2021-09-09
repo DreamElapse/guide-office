@@ -7,11 +7,11 @@
       </div>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div v-if="navIndex === 0" class="office-context" v-html="officeInfo"></div>
-      <div v-else-if="navIndex === 1" class="content-detail">
+      <div v-else-if="navIndex === 1" ref="contentDetail" class="content-detail">
         <div class="personnel-title">
           <span v-for="(item, index) in personnelTitle" :key="index" class="item" :style="{flex: item.flex}">{{item.name}}</span>
         </div>
-        <div class="personnel-list-box">
+        <div ref="personnelList" class="personnel-list-box">
           <div v-for="(item, index) in personnelData" :key="'p'+index" class="personnel-item">
             <span class="item" style="flex: 1 ">{{index+1}}</span>
             <p v-for="(val, ind) in personnelTitle.slice(1)" :key="'i'+ind" class="item" :style="{flex: val.flex}">
@@ -49,60 +49,6 @@
     {name: '办公电话', value: 'TELPHONE', flex: 1}
   ]
 
-  const personnelData = [
-    {
-      name: '卢春',
-      image: '',
-      business: '科员',
-      duty: '专管员岗位。负责政法委、市纪委监委、统战部、直属机关工委、总工会、团委、各民主党派、台办、党史研究室、侨联、妇联、政研室等单位财务管理工作。',
-      office: '702',
-      tell: '32007'
-
-    },
-    {
-      name: '卢春',
-      image: '',
-      business: '科员',
-      duty: '专管员岗位。负责政法委、市纪委监委、统战部、直属机关工委、总工会、团委、各民主党派、台办、党史研究室、侨联、妇联、政研室等单位财务管理工作。',
-      office: '702',
-      tell: '32007'
-
-    },
-    {
-      name: '卢春',
-      image: '',
-      business: '科员',
-      duty: '专管员岗位。负责政法委、市纪委监委、统战部、直属机关工委、总工会、团委、各民主党派、台办、党史研究室、侨联、妇联、政研室等单位财务管理工作。',
-      office: '702',
-      tell: '32007'
-
-    },
-    {
-      name: '卢春',
-      image: '',
-      business: '科员',
-      duty: '专管员岗位。负责政法委、市纪委监委、统战部、直属机关工委、总工会、团委、各民主党派、台办、党史研究室、侨联、妇联、政研室等单位财务管理工作。',
-      office: '702',
-      tell: '32007'
-
-    }
-  ]
-
-  const showList = [
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    { image: '', text: '市财政局举措持续加强政府非税收入收缴管理' },
-    
-  ]
-
   export default {
     name: PAGE_NAME,
     page: {
@@ -119,8 +65,15 @@
         officeInfo: '',
         id: '',
         personnelData: [],
-        showList,
+        showList: [],
         navIndex: 0,
+        officePage: 1,
+        officeTotal: 10,
+        getMoreOffice: false,
+        getMoreShow: false,
+        showPage: 1,
+        showTotal: 10
+
       }
     },
     computed: {
@@ -134,9 +87,13 @@
       if (this.id) {
         this.getOfficeDetail()
         this.getOfficePersonList()
+        this.getOfficeShow()
       } else {
         this.$router.back()
       }
+    },
+    mounted() {
+      
     },
     methods: {
       // ...Helpers.methods,
@@ -150,15 +107,59 @@
           })
       },
       getOfficePersonList() {
-        API.Global.getOfficePersonList({OfficeID: this.id})
+        if(this.getMoreOffice || this.personnelData.length === +this.officeTotal) return
+        this.getMoreOffice = true
+        let data = {
+          OfficeID: +this.id,
+          PageSize: 10,
+          CurrentPage: this.officePage
+        }
+        API.Global.getOfficePersonList(data)
           .then(res => {
             if (+res.returnCode === 1) {
-              this.personnelData = res.data
+              this.personnelData = [...this.personnelData, ...res.data.OfficePersonList]
+              this.officeTotal = res.data.TotalRecords
+              this.officeTotal = 2
+              setTimeout(() => {
+                this.getMoreOffice = false
+              }, 200)
+            }
+          })
+      },
+      getOfficeShow() {
+        if(this.getMoreShow || this.showList.length === +this.showTotal) return
+        this.getMoreShow = true
+        let data = {
+          OfficeID: +this.id,
+          PageSize: 10,
+          CurrentPage: this.showPage
+        }
+        API.Global.getOfficeShow(data)
+          .then(res => {
+            if(+res.returnCode === 1) {
+              this.showList = [...this.showList, ...res.data.OfficeMienList]
+              this.showTotal = res.data.OfficeMienList
+              setTimeout(() => {
+                this.getMoreShow = false
+              }, 200)
             }
           })
       },
       navClick(index) {
         this.navIndex = index
+        if (index === 1) {
+          this.$nextTick(() => {
+            this.$refs.contentDetail.addEventListener('scroll', () => {
+              let boxHeight = this.$refs.contentDetail.offsetHeight
+              let listHeight = this.$refs.personnelList.offsetHeight
+              let scrollTop = this.$refs.contentDetail.scrollTop
+              if (scrollTop >= listHeight-boxHeight) {
+                this.officePage ++
+                this.getOfficePersonList()
+              }
+            }, false)
+          })
+        }
       }
     }
   }
@@ -221,6 +222,8 @@
       margin-top: 0.5vw
       background: #FFF
       overflow: scroll
+      width: 100%
+      box-sizing: border-box
       .personnel-title
         height: 9.5vh
         background: #21A5F3

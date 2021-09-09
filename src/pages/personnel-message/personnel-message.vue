@@ -1,11 +1,12 @@
 <template>
   <div class="personnel-message">
-    <page-header :title="personnel.name"></page-header>
+    <page-header :title="personnel.NAME"></page-header>
     <div class="message-content">
-      <span class="personnel-name">{{personnel.name}}</span>
+      <span class="personnel-name">{{personnel.NAME}}</span>
       <div class="personnel-detail">
         <img :src="personnel.PHOTOPATH" alt="" class="head-img">
-        <div class="message">{{personnel.PERSONALDETAILS}}</div>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div class="message" v-html="personnel.PERSONALDETAILS"></div>
         <!-- <span class="business">{{personnel.business}}</span>
         <span class="msg">{{personnel.message}}</span>
         <span class="office">{{personnel.office}}</span> -->
