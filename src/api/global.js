@@ -41,5 +41,15 @@ export default {
         const url = `/api/GetStoreyDetails`
         return request.post({url, data: args})
     },
+    // 政策公告/常见问题-获取导航栏
+    getPublicType(args) {
+        const url = `/api/GetColumn`
+        return request.post({url, data: args})
+    },
+    // 政策公告/常见问题-获取响应栏目内容
+    getPublicList(args) {
+        const url = `/api/GetInfoOpen`
+        return request.post({url, data: args})
+    },
     
 }
