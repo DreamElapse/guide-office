@@ -6,7 +6,7 @@
         <span v-if="value" class="search-clear" @click="clear"></span>
       </div>
       <div class="search-btn">
-        <span class="btn-text" @click="search">搜索</span>
+        <span class="btn-text" @click="toSearch">搜索</span>
         <span class="btn-text" @click="back">返回</span>
       </div>
     </div>
@@ -15,11 +15,14 @@
         <div class="data-title">
           <span v-for="(title, index) in dataTitle" :key="'t'+index" class="title-name">{{title}}</span>
         </div>
-        <div class="data-box">
-          <p v-for="(co, ind) in searchData" :key="'c'+ind" class="data-content" @click="toDetail(co)">
-            <span v-for="(val, index) in dataValue" :key="'v'+index" class="data-value">{{co[val] || '---'}}</span>
-          </p>
-          <img v-if="!searchData.length" src="../../assets/no_search.png" alt="" class="no-search">
+        <div ref="searchBox" class="data-box">
+          <div ref="searchList" class="search-data-list">
+            <p v-for="(co, ind) in searchData" :key="'c'+ind" class="data-content" @click="toDetail(co)">
+              <span v-for="(val, index) in dataValue" :key="'v'+index" class="data-value">{{co[val] || '---'}}</span>
+            </p>
+            <img v-if="!searchData.length" src="../../assets/no_search.png" alt="" class="no-search">
+          </div>
+          
         </div>
       </div>
       
@@ -48,7 +51,10 @@
         dataValue: DATA_VALUE,
         newKeyword: '',
         showClear: false,
-        searchData: []
+        searchData: [],
+        hasGetmore: false,
+        searchTotal: 10,
+        page: 1
       }
     },
     computed: {
@@ -60,8 +66,12 @@
     created() {
       this.value && this.search()
     },
+    mounted() {
+      this.$refs.searchBox.addEventListener('scroll', this.scrollFun, false)
+    },
     beforeDestroy() {
       this.setKeyword('')
+      this.$refs.searchBox.removeEventListener('scroll', this.scrollFun)
     },
     methods: {
       ...Helpers.globalActions,
@@ -74,12 +84,37 @@
           this.$toast.show('请输入搜索内容')
           return
         }
-        API.Search.searchMessage({Key: this.value})
+        if(this.hasGetmore || this.searchData.length >= +this.searchTotal) return
+        this.hasGetmore = true
+        let data = {
+          Pagesize: 10,
+          CurrentPage: this.page,
+          Key: this.value
+        }
+        API.Search.searchMessage(data)
           .then(res => {
             if (+res.returnCode === 1) {
-              this.searchData = res.data.RestData
+              this.page ++
+              this.searchData = [...this.searchData, ...res.data.RestData]
+              this.searchTotal = res.data.TotalRecords
+              setTimeout(() => {
+                this.hasGetmore = false
+              }, 200)
             }
           })
+      },
+      toSearch() {
+        this.page = 1
+        this.searchData = []
+        this.search()
+      },
+      scrollFun() {
+        let boxHeight = this.$refs.searchBox.offsetHeight
+        let listHeight = this.$refs.searchList.offsetHeight
+        let scrollTop = this.$refs.searchBox.scrollTop
+        if (scrollTop >= listHeight-boxHeight-20) {
+          this.search()
+        }
       },
       back() {
         this.$router.back()
@@ -163,6 +198,8 @@
         color: $color-text-main
         height: 4.66vw
         width: 40vw
+        flex: 1
+        margin-right: 4vw
         font-size: 1.74vw
         &::-webkit-input-placeholder
           color: #C0C0C0
@@ -199,6 +236,8 @@
         line-height: @height
       .data-box
         flex: 1
+        overflow-y: scroll
+      .search-data-list
         overflow-y: scroll
         position: relative
       .data-content

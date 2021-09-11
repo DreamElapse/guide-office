@@ -61,8 +61,7 @@
       this.getPersonType()
     },
     beforeDestroy() {
-      let _this = this
-      this.$refs.personnelBox.removeEventListener('scroll', _this.scrollFun)
+      this.$refs.personnelBox.removeEventListener('scroll', this.scrollFun)
     },
     methods: {
       // ...Helpers.methods,
@@ -78,7 +77,6 @@
       },
       getPersonList() {
         if(this.hasGetmore || this.personnelList.length >= +this.personTotal) return
-        let _this = this
         this.hasGetmore = true
         let data = {
           LevelID: +this.navId,
@@ -93,7 +91,7 @@
               this.personnelList = [...this.personnelList, ...res.data.OfficePersonList]
               this.personTotal = res.data.TotalRecords
               this.$nextTick(() => {
-                this.$refs.personnelBox.addEventListener('scroll', _this.scrollFun, false)
+                this.$refs.personnelBox.addEventListener('scroll', this.scrollFun, false)
               })
               setTimeout(() => {
                 this.hasGetmore = false

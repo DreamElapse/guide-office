@@ -22,10 +22,12 @@
         </div>
         
       </div>
-      <div v-else class="office-show">
-        <div v-for="(item, index) in showList" :key="index" class="show-item" @click="toDetail(item.MIENID)">
-          <img :src="item.PHOTOPATH" class="item-img" alt="">
-          <p class="item-text">{{item.TITLE}}</p>
+      <div v-else ref="officeShow" class="office-show">
+        <div ref="showList" class="show-list">
+          <div v-for="(item, index) in showList" :key="index" class="show-item" @click="toDetail(item.MIENID)">
+            <img :src="item.PHOTOPATH" class="item-img" alt="">
+            <p class="item-text">{{item.TITLE}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -146,8 +148,14 @@
           })
       },
       navClick(index) {
+        if(index === this.navIndex) return
         this.navIndex = index
+        this.officePage = 1
+        this.showPage = 1
+        this.showList = []
+        this.personnelData = []
         if (index === 1) {
+          this.getOfficePersonList()
           this.$nextTick(() => {
             this.$refs.contentDetail.addEventListener('scroll', () => {
               let boxHeight = this.$refs.contentDetail.offsetHeight
@@ -155,6 +163,18 @@
               let scrollTop = this.$refs.contentDetail.scrollTop
               if (scrollTop >= listHeight-boxHeight-20) {
                 this.getOfficePersonList()
+              }
+            }, false)
+          })
+        } else if (index === 2) {
+          this.getOfficeShow()
+          this.$nextTick(() => {
+            this.$refs.officeShow.addEventListener('scroll', () => {
+              let boxHeight = this.$refs.officeShow.offsetHeight
+              let listHeight = this.$refs.showList.offsetHeight
+              let scrollTop = this.$refs.officeShow.scrollTop
+              if (scrollTop >= listHeight-boxHeight-20) {
+                this.getOfficeShow()
               }
             }, false)
           })
@@ -259,11 +279,13 @@
     .office-show
       padding: 1vw
       background: #FFF
-      overflow: scroll
-      display: flex
-      flex-wrap: wrap
       padding: 1.5vw 0 1.5vw 1.5vw
       width: 100%
+      overflow: hidden
+      .show-list
+        overflow-y: scroll
+        display: flex
+        flex-wrap: wrap
       .show-item
         height: 18vw
         width: 13.54vw
