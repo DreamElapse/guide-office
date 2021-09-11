@@ -6,7 +6,7 @@
       </div>
       <div class="right-content">
         <div v-if="messageList.length" class="content-box">
-          <p v-for="(item, index) in messageList" :key="'r'+index" class="message" @click.stop="toDetail(INFOPUBLISHID)">
+          <p v-for="(item, index) in messageList" :key="'r'+index" class="message" @click.stop="toDetail(item.INFOPUBLISHID)">
             <span class="icon"></span>
             <span class="text">{{item.TITLE}}</span>
             <span class="text date">{{item.CREATETIME}}</span>
@@ -132,7 +132,7 @@
         this.getPublicList()
       },
       toDetail(id) {
-        // this.$router.push()
+        this.$router.push(`/information-detail?id=${id}`)
       },
       pageClick() {
         this.numberShow = false
@@ -149,7 +149,6 @@
     height: 100vh
     box-sizing: border-box
     padding: 3.43vh 2.14vw
-    background: url("../../assets/page_bg.png") 100% 100%
     overflow: hidden
     position: relative
     .page-content

@@ -23,9 +23,9 @@
         
       </div>
       <div v-else class="office-show">
-        <div v-for="(item, index) in showList" :key="index" class="show-item">
-          <img :src="item.image" class="item-img" alt="">
-          <p class="item-text">{{item.text}}</p>
+        <div v-for="(item, index) in showList" :key="index" class="show-item" @click="toDetail(item.MIENID)">
+          <img :src="item.PHOTOPATH" class="item-img" alt="">
+          <p class="item-text">{{item.TITLE}}</p>
         </div>
       </div>
     </div>
@@ -117,9 +117,9 @@
         API.Global.getOfficePersonList(data)
           .then(res => {
             if (+res.returnCode === 1) {
+              this.officePage ++
               this.personnelData = [...this.personnelData, ...res.data.OfficePersonList]
               this.officeTotal = res.data.TotalRecords
-              this.officeTotal = 2
               setTimeout(() => {
                 this.getMoreOffice = false
               }, 200)
@@ -153,14 +153,16 @@
               let boxHeight = this.$refs.contentDetail.offsetHeight
               let listHeight = this.$refs.personnelList.offsetHeight
               let scrollTop = this.$refs.contentDetail.scrollTop
-              if (scrollTop >= listHeight-boxHeight) {
-                this.officePage ++
+              if (scrollTop >= listHeight-boxHeight-20) {
                 this.getOfficePersonList()
               }
             }, false)
           })
         }
-      }
+      },
+      toDetail(id) {
+        this.$router.push(`/information-detail?id=${id}&type=1`)
+      },
     }
   }
 </script>
@@ -174,6 +176,8 @@
     box-sizing: border-box
     padding: 3.43vh 2.14vw
     background: #019cfe
+    background: url("../../assets/page_bg.png")
+    background-size: 100% 100%
     overflow: hidden
     .page-content    
       margin-top: 2.3vh
@@ -259,6 +263,7 @@
       display: flex
       flex-wrap: wrap
       padding: 1.5vw 0 1.5vw 1.5vw
+      width: 100%
       .show-item
         height: 18vw
         width: 13.54vw

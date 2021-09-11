@@ -41,6 +41,16 @@ export default {
         const url = `/api/GetStoreyDetails`
         return request.post({url, data: args})
     },
+    // 人员信息-获取导航栏
+    getPersonType(args) {
+        const url = `/api/GetStaffLevel`
+        return request.post({url, data: args})
+    },
+    // 人员信息-获取人员分类内人员信息
+    getPersonList(args) {
+        const url = `/api/GetOfficePersonByLevelID`
+        return request.post({url, data: args})
+    },
     // 政策公告/常见问题-获取导航栏
     getPublicType(args) {
         const url = `/api/GetColumn`
@@ -49,6 +59,16 @@ export default {
     // 政策公告/常见问题-获取响应栏目内容
     getPublicList(args) {
         const url = `/api/GetInfoOpen`
+        return request.post({url, data: args})
+    },
+    // 政策公告/常见问题-详情
+    getInformationDetail(args) {
+        const url = `/api/GetOneInfoOpenDetails`
+        return request.post({url, data: args})
+    },
+    // 办公室-部门风采详情
+    getShowDetail(args) {
+        const url = `/api/GetOfficeMienDetailsByMineID`
         return request.post({url, data: args})
     },
     

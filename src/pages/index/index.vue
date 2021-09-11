@@ -50,7 +50,9 @@
   .index
     width: 100vw
     height: 100vh
-    background: #0199fd
+    background: #019cfe
+    background: url("../../assets/page_bg.png")
+    background-size: 100% 100%
     box-sizing: border-box
     position: relative
     overflow: hidden

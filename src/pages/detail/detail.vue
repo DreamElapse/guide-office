@@ -51,6 +51,8 @@
     box-sizing: border-box
     padding: 3.43vh 2.14vw
     background: #019cfe
+    background: url("../../assets/page_bg.png")
+    background-size: 100% 100%
     overflow: hidden
     .message-content    
       margin-top: 2.3vh

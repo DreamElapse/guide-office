@@ -2,25 +2,28 @@
   <div class="personnel-info">
     <div class="page-content">
       <div class="left-nav">
-        <span v-for="(item, index) in navList" :key="index" :class="['nav-item',{'active':navIndex === index}]" @click="changeNav(index)">{{item}}</span>
+        <span v-for="(item, index) in navList" :key="index" :class="['nav-item',{'active':navIndex === index}]" @click="changeNav(index, item.LEVELID)">{{item.LEVELNAME}}</span>
       </div>
 
       <div class="right-content">
         <div class="top-content">
           <div class="search-box">
             <img src="../../assets/search.png" alt="" class="search-icon">
-            <input type="text" class="search-input">
-            <span class="search-btn">搜索人员</span>
+            <input v-model="keyword" type="text" class="search-input">
+            <span class="search-btn" @click="search">搜索人员</span>
           </div>
           <p class="tip">注：点击头像可查看人员详细信息</p>
         </div>
-        <div class="personnel-list">
-          <div v-for="(item, index) in personnelList" :key="index" class="personnel-item">
-            <img :src="item.avat" alt="" class="personnel-avat">
-            <p class="name">{{item.name}}</p>
-            <p class="text">{{item.business}}</p>
-            <p class="text">{{item.office}}</p>
+        <div ref="personnelBox" class="personnel-box">
+          <div v-if="personnelList.length" ref="personnelList" class="personnel-list">
+            <div v-for="(item, index) in personnelList" :key="index" class="personnel-item">
+              <img :src="item.PHOTOPATH" alt="" class="personnel-avat">
+              <p class="name">{{item.NAME}}</p>
+              <p class="text">{{item.JOBNAME}}</p>
+              <p class="text">{{item.STOREYNAME}}-{{item.ROOMNUMBER}}</p>
+            </div>
           </div>
+          <img v-else src="../../assets/no_list.png" alt="" class="no-list">
         </div>
       </div>
     </div>
@@ -30,11 +33,9 @@
 
 <script type="text/ecmascript-6">
   // import * as Helpers from '@state/helpers'
-  // import API from '@api'
+  import API from '@api'
   const PAGE_NAME = 'PERSONNEL_INFO'
   const TITLE = '人员信息'
-
-  const navList = ['局领导', '科长', '科员']
 
   export default {
     name: PAGE_NAME,
@@ -43,33 +44,86 @@
     },
     data() {
       return {
-        navList,
+        navList: [],
         navIndex: 0,
-        personnelList: [
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-          {avat: '', name: '李曜', business: '党组书记、局长', office: '6楼-601局长办公室'},
-        ]
+        navId: '',
+        personnelList: [],
+        hasGetmore: false,
+        personTotal: 10,
+        keyword: '',
+        page: 1
       }
     },
     computed: {
       // ...Helpers.computed,
     },
+    created() {
+      this.getPersonType()
+    },
+    beforeDestroy() {
+      let _this = this
+      this.$refs.personnelBox.removeEventListener('scroll', _this.scrollFun)
+    },
     methods: {
       // ...Helpers.methods,
-      changeNav(index) {
+      getPersonType() {
+        API.Global.getPersonType()
+          .then(res => {
+            if(+res.returnCode === 1) {
+              this.navList = res.data
+              this.navId = res.data[0].LEVELID
+              this.getPersonList()
+            }
+          })
+      },
+      getPersonList() {
+        if(this.hasGetmore || this.personnelList.length >= +this.personTotal) return
+        let _this = this
+        this.hasGetmore = true
+        let data = {
+          LevelID: +this.navId,
+          Pagesize: 10,
+          CurrentPage: this.page,
+          Key: this.keyword
+        }
+        API.Global.getPersonList(data)
+          .then(res => {
+            if (+res.returnCode === 1) {
+              this.page ++
+              this.personnelList = [...this.personnelList, ...res.data.OfficePersonList]
+              this.personTotal = res.data.TotalRecords
+              this.$nextTick(() => {
+                this.$refs.personnelBox.addEventListener('scroll', _this.scrollFun, false)
+              })
+              setTimeout(() => {
+                this.hasGetmore = false
+              }, 200)
+            }
+          })
+      },
+      scrollFun() {
+        let boxHeight = this.$refs.personnelBox.offsetHeight
+        let listHeight = this.$refs.personnelList.offsetHeight
+        let scrollTop = this.$refs.personnelBox.scrollTop
+        if (scrollTop >= listHeight-boxHeight-20) {
+          this.getPersonList()
+        }
+      },
+      changeNav(index, id) {
         this.navIndex = index
+        this.navId = id
+        this.page = 1
+        this.personnelList = []
+        this.personTotal = 10
+        this.getPersonList()
+      },
+      search() {
+        this.page = 1
+        this.personnelList = []
+        this.personTotal = 10
+        this.getPersonList()
       }
+
     }
   }
 </script>
@@ -82,7 +136,6 @@
     height: 100vh
     box-sizing: border-box
     padding: 3.43vh 2.14vw
-    background: #019cfe
     overflow: hidden
     position: relative
     .page-content
@@ -118,6 +171,10 @@
         flex: 1
         box-sizing: border-box
         padding: 1.6vw 1.52vw
+        display: flex
+        flex-direction: column
+        height: 100%
+        overflow: hidden
         .top-content
           display: flex
           align-items: center
@@ -151,16 +208,26 @@
         .tip
           font-size: 1.3vw
           color: #B2B2B2
+        .personnel-box
+          flex: 1
+          overflow-y: scroll
+          margin-top: 3vw
+          position: relative
         .personnel-list
           display: flex
           flex-wrap: wrap
+          padding: 0 5vw
         .personnel-item
           text-align: center
           font-size: 1.3vw
           color: #999999
-          width: 15vw
+          width: 11vw
           white-space: nowrap
-          padding: 3.8vw 1vw 0 0
+          padding: 0 4vw 3vw 0
+          &:nth-child(5n)
+            padding-right: 0
+        .personnel-avat
+          width: 7vw
         .text
           text-overflow: ellipsis
           overflow: hidden
@@ -169,6 +236,12 @@
           font-size: 1.52vw
           color: #000
           margin-top 0.6vw
+    .no-list
+      width: 20vw
+      position: absolute
+      left: 50%
+      top: 50%
+      transform: translate(-50%, -50%)
 
 
     .bottom-text

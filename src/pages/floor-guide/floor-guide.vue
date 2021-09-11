@@ -89,6 +89,9 @@
         // } else {
         //   this.hasMore = true
         // }
+      },
+      toFloor(url) {
+        // this.$router.push(`url`)
       }
     }
   }
@@ -102,7 +105,6 @@
     height: 100vh
     box-sizing: border-box
     padding: 3.43vh 2.14vw
-    background: #019cfe
     overflow: hidden
     position: relative
     .page-content

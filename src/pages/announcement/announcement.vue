@@ -6,17 +6,17 @@
       </div>
       <div class="right-content">
         <div v-if="messageList.length" class="content-box">
-          <p v-for="(item, index) in messageList" :key="'r'+index" class="message" @click.stop="toDetail(INFOPUBLISHID)">
+          <p v-for="(item, index) in messageList" :key="'r'+index" class="message" @click="toDetail(item.INFOPUBLISHID)">
             <span class="icon"></span>
             <span class="text">{{item.TITLE}}</span>
             <span class="text date">{{item.CREATETIME}}</span>
           </p>
         </div>
         <div v-if="messageList.length" class="paganition">
-          <span class="first-page pag-btn" @click.stop="changePage(1)">第一页</span>
-          <span class="prev-page pag-btn" @click.stop="changePage(2)">上一页</span>
-          <span class="next-page pag-btn" @click.stop="changePage(3)">下一页</span>
-          <span class="last-page pag-btn" @click.stop="changePage(4)">最后一页</span>
+          <span class="first-page pag-btn" @click="changePage(1)">第一页</span>
+          <span class="prev-page pag-btn" @click="changePage(2)">上一页</span>
+          <span class="next-page pag-btn" @click="changePage(3)">下一页</span>
+          <span class="last-page pag-btn" @click="changePage(4)">最后一页</span>
           <div class="page-num" @click.stop="showNumber">
             <div v-if="numberShow" class="page-box">
               <p v-for="(item, index) in pageNum" :key="index" class="num-handle" @click.stop="pageHandle(item)">{{item}}</p>
@@ -131,7 +131,7 @@
         this.getPublicList()
       },
       toDetail(id) {
-        // this.$router.push()
+        this.$router.push(`/information-detail?id=${id}`)
       },
       pageClick() {
         this.numberShow = false
@@ -148,7 +148,9 @@
     height: 100vh
     box-sizing: border-box
     padding: 3.43vh 2.14vw
-    background: url("../../assets/page_bg.png") 100% 100%
+    background: #019cfe
+    background: url("../../assets/page_bg.png")
+    background-size: 100% 100%
     overflow: hidden
     position: relative
     .page-content

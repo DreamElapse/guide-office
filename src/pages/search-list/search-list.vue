@@ -19,6 +19,7 @@
           <p v-for="(co, ind) in searchData" :key="'c'+ind" class="data-content" @click="toDetail(co)">
             <span v-for="(val, index) in dataValue" :key="'v'+index" class="data-value">{{co[val] || '---'}}</span>
           </p>
+          <img v-if="!searchData.length" src="../../assets/no_search.png" alt="" class="no-search">
         </div>
       </div>
       
@@ -101,6 +102,8 @@
     width: 100vw
     height: 100vh
     background: #019cfe
+    background: url("../../assets/page_bg.png")
+    background-size: 100% 100%
     padding: 2.41vh 2.08vw
     box-sizing: border-box
     .search-box
@@ -197,6 +200,7 @@
       .data-box
         flex: 1
         overflow-y: scroll
+        position: relative
       .data-content
         height: 9vh
         line-height: 9vh
@@ -210,6 +214,12 @@
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
+    .no-search
+      width: 18vw
+      position: absolute
+      left: 50%
+      top: 50%
+      transform: translate(-50%, -50%)
 
     .bottom-text
       font-size: 1.61vw

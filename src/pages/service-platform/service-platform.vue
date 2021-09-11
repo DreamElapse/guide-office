@@ -94,13 +94,12 @@
     height: 100vh
     box-sizing: border-box
     padding: 3.43vh 2.14vw
-    background: #019cfe
     overflow: hidden
     .page-content
       margin-top: 14.8vh
       height: 72.76vh
       background: #FFF
-      border-radius: 1vw
+      border-radius: 0.75vw
       .title
         padding-top: 7.4vh
         font-size: 2.5vw
@@ -118,7 +117,7 @@
         align-items: center
         justify-content: center
         background: #333333
-        border-radius: 1vw
+        border-radius: 0.75vw
         box-shadow: 0 0 0 0 rgba(110, 107, 107, 0.06)
         font-size: 1.74vw
         flex: 0 0 8vw
@@ -126,7 +125,7 @@
       .nav-list
         border: 1px solid #333333;
         box-shadow: 0 0 0 0 rgba(110, 107, 107, 0.06)
-        border-radius: 1vw
+        border-radius: 0.75vw
         margin-left: 0.52vw
         padding: 0.64vw 0.23vw
         height: 8vw
@@ -141,7 +140,7 @@
           height: auto
       .nav-item
         padding: 0.72vw 2.26vw
-        border-radius: 1vw
+        border-radius: 0.75vw
         line-height: 1
         font-size: 1.12vw
         font-weight: bold
