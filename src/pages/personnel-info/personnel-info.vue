@@ -61,7 +61,7 @@
       this.getPersonType()
     },
     beforeDestroy() {
-      this.$refs.personnelBox.removeEventListener('scroll', this.scrollFun)
+      this.$refs.personnelBox && this.$refs.personnelBox.removeEventListener('scroll', this.scrollFun)
     },
     methods: {
       // ...Helpers.methods,

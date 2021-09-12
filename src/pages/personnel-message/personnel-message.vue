@@ -111,6 +111,8 @@
         line-height: 2
         box-sizing: border-box
         padding-top: 11vh
+      .message
+        padding: 0 4vw
       .head-img
         width: 12.71vw
         height: 17.4vw

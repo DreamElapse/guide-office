@@ -6,7 +6,8 @@
         <img v-else src="../../assets/home.png" alt="" class="icon">
         <span :class="['btn-text', {'active': (page === 'home')}]">首页</span>
       </div>
-      <div v-if="!showLogo" class="left-btn" @click="toPage('/detail')">
+      <!-- <div v-if="!showLogo" class="left-btn" @click="toPage('/detail')"> -->
+      <div v-if="show" class="left-btn" @click="toPage('/detail')">
         <img v-if="page === 'detail'" src="../../assets/detail_active.png" alt="" class="icon">
         <img v-else src="../../assets/detail.png" alt="" class="icon">
         <span :class="['btn-text', {'active': (page === 'detail')}]">局内概况</span>
@@ -43,7 +44,8 @@
     },
     data() {
       return {
-        topBtn: TOP_BTN
+        topBtn: TOP_BTN,
+        show: false
       }
     },
     computed: {

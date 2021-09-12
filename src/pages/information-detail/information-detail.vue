@@ -75,7 +75,7 @@
       width: 100%
       height: 86.8vh
       box-sizing: border-box
-      padding-top: 5.2vh
+      padding: 2.2vw 1vw 0
       background: #FFF
       border-radius: 1vw
       position: relative

@@ -97,6 +97,10 @@
     mounted() {
       
     },
+    beforeDestory() {
+      this.$refs.contentDetail && this.$refs.contentDetail.removeEventListener('scroll', this.officeFun, false)
+      this.$refs.officeShow && this.$refs.officeShow.removeEventListener('scroll', this.showFun, false)
+    },
     methods: {
       // ...Helpers.methods,
       getOfficeDetail() {
@@ -149,35 +153,41 @@
       },
       navClick(index) {
         if(index === this.navIndex) return
+        this.$refs.contentDetail && this.$refs.contentDetail.removeEventListener('scroll', this.officeFun, false)
+        this.$refs.officeShow && this.$refs.officeShow.removeEventListener('scroll', this.showFun, false)
         this.navIndex = index
         this.officePage = 1
         this.showPage = 1
         this.showList = []
         this.personnelData = []
         if (index === 1) {
+          this.officeTotal = 10
           this.getOfficePersonList()
           this.$nextTick(() => {
-            this.$refs.contentDetail.addEventListener('scroll', () => {
-              let boxHeight = this.$refs.contentDetail.offsetHeight
-              let listHeight = this.$refs.personnelList.offsetHeight
-              let scrollTop = this.$refs.contentDetail.scrollTop
-              if (scrollTop >= listHeight-boxHeight-20) {
-                this.getOfficePersonList()
-              }
-            }, false)
+            this.$refs.contentDetail.addEventListener('scroll', this.officeFun, false)
           })
         } else if (index === 2) {
+          this.showTotal = 10
           this.getOfficeShow()
           this.$nextTick(() => {
-            this.$refs.officeShow.addEventListener('scroll', () => {
-              let boxHeight = this.$refs.officeShow.offsetHeight
-              let listHeight = this.$refs.showList.offsetHeight
-              let scrollTop = this.$refs.officeShow.scrollTop
-              if (scrollTop >= listHeight-boxHeight-20) {
-                this.getOfficeShow()
-              }
-            }, false)
+            this.$refs.officeShow.addEventListener('scroll', this.showFun, false)
           })
+        }
+      },
+      officeFun() {
+        let boxHeight = this.$refs.contentDetail.offsetHeight
+        let listHeight = this.$refs.personnelList.offsetHeight
+        let scrollTop = this.$refs.contentDetail.scrollTop
+        if (scrollTop >= listHeight-boxHeight-20) {
+          this.getOfficePersonList()
+        }
+      },
+      showFun() {
+        let boxHeight = this.$refs.officeShow.offsetHeight
+        let listHeight = this.$refs.showList.offsetHeight
+        let scrollTop = this.$refs.officeShow.scrollTop
+        if (scrollTop >= listHeight-boxHeight-20) {
+          this.getOfficeShow()
         }
       },
       toDetail(id) {
@@ -239,7 +249,7 @@
           box-shadow: 0 2px 8px 4px rgba(110, 107, 107, 0.06)
     .office-context
       line-height: 1.2
-      padding: 0 0.4vw
+      padding: 1vw 2vw
       overflow-Y: scroll
     .content-detail
       padding: 0 1vw 1vw

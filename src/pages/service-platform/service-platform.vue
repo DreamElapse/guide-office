@@ -55,6 +55,7 @@
       return {
         // navList: ['湛江市工程预结算审核中心', '政府采购监管科', '会计科', '机关党委', '经济建设科', '资源管理科', '湛江市财政票据服务中心', '会计科', '机关党委', '经济建设科', '资源管理科', '湛江市财政票据服务中心'],
         navList: [],
+        allList: [],
         guideList: GUIDE_LIST,
         showMore: false,
 
@@ -72,12 +73,15 @@
         API.Global.getOfficeList()
           .then(res => {
             if (+res.returnCode === 1) {
-              this.navList = res.data
+              this.navList = res.data.slice(0, 13)
+              this.allList = res.data
             }
           })
       },
       showList() {
         this.showMore = !this.showMore
+        this.showMore && (this.navList = this.allList.slice(0))
+        !this.showMore && (this.navList = this.allList.slice(0, 13))
       },
       toDetail(id) {
         this.$router.push(`/office-detail?id=${id}`)

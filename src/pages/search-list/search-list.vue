@@ -71,7 +71,7 @@
     },
     beforeDestroy() {
       this.setKeyword('')
-      this.$refs.searchBox.removeEventListener('scroll', this.scrollFun)
+      this.$refs.searchBox && this.$refs.searchBox.removeEventListener('scroll', this.scrollFun)
     },
     methods: {
       ...Helpers.globalActions,
@@ -240,6 +240,7 @@
       .search-data-list
         overflow-y: scroll
         position: relative
+        height: 100%
       .data-content
         height: 9vh
         line-height: 9vh
