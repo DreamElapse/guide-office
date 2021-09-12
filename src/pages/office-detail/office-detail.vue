@@ -178,7 +178,7 @@
         let boxHeight = this.$refs.contentDetail.offsetHeight
         let listHeight = this.$refs.personnelList.offsetHeight
         let scrollTop = this.$refs.contentDetail.scrollTop
-        if (scrollTop >= listHeight-boxHeight-20) {
+        if (scrollTop >= listHeight-boxHeight-100) {
           this.getOfficePersonList()
         }
       },
@@ -186,7 +186,7 @@
         let boxHeight = this.$refs.officeShow.offsetHeight
         let listHeight = this.$refs.showList.offsetHeight
         let scrollTop = this.$refs.officeShow.scrollTop
-        if (scrollTop >= listHeight-boxHeight-20) {
+        if (scrollTop >= listHeight-boxHeight-100) {
           this.getOfficeShow()
         }
       },
@@ -251,6 +251,9 @@
       line-height: 1.2
       padding: 1vw 2vw
       overflow-Y: scroll
+      flex: 1
+      width: 100%
+      box-sizing: border-box
     .content-detail
       padding: 0 1vw 1vw
       margin-top: 0.5vw

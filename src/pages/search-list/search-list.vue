@@ -91,7 +91,7 @@
           CurrentPage: this.page,
           Key: this.value
         }
-        API.Search.searchMessage(data)
+        API.Global.searchMessage(data)
           .then(res => {
             if (+res.returnCode === 1) {
               this.page ++
@@ -109,10 +109,10 @@
         this.search()
       },
       scrollFun() {
-        let boxHeight = this.$refs.searchBox.offsetHeight
-        let listHeight = this.$refs.searchList.offsetHeight
-        let scrollTop = this.$refs.searchBox.scrollTop
-        if (scrollTop >= listHeight-boxHeight-20) {
+        let boxHeight = this.$refs.searchBox && this.$refs.searchBox.offsetHeight
+        let listHeight = this.$refs.searchList && this.$refs.searchList.offsetHeight
+        let scrollTop = this.$refs.searchBox && this.$refs.searchBox.scrollTop
+        if (scrollTop >= listHeight-boxHeight-100) {
           this.search()
         }
       },
@@ -141,6 +141,8 @@
     background-size: 100% 100%
     padding: 2.41vh 2.08vw
     box-sizing: border-box
+    overflow: hidden
+    position: relative
     .search-box
       display: flex
       aline-items: center

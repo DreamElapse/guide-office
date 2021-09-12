@@ -91,7 +91,7 @@
         // }
       },
       toFloor(url) {
-        // this.$router.push(`url`)
+        this.$router.push(url)
       }
     }
   }

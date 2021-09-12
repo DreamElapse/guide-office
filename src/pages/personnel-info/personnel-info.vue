@@ -16,7 +16,7 @@
         </div>
         <div ref="personnelBox" class="personnel-box">
           <div v-if="personnelList.length" ref="personnelList" class="personnel-list">
-            <div v-for="(item, index) in personnelList" :key="index" class="personnel-item">
+            <div v-for="(item, index) in personnelList" :key="index" class="personnel-item" @click="toPerson(item.PERSONID)">
               <img :src="item.PHOTOPATH" alt="" class="personnel-avat">
               <p class="name">{{item.NAME}}</p>
               <p class="text">{{item.JOBNAME}}</p>
@@ -100,10 +100,10 @@
           })
       },
       scrollFun() {
-        let boxHeight = this.$refs.personnelBox.offsetHeight
-        let listHeight = this.$refs.personnelList.offsetHeight
-        let scrollTop = this.$refs.personnelBox.scrollTop
-        if (scrollTop >= listHeight-boxHeight-20) {
+        let boxHeight = this.$refs.personnelBox && this.$refs.personnelBox.offsetHeight
+        let listHeight = this.$refs.personnelList && this.$refs.personnelList.offsetHeight
+        let scrollTop = this.$refs.personnelBox && this.$refs.personnelBox.scrollTop
+        if (scrollTop >= listHeight-boxHeight-100) {
           this.getPersonList()
         }
       },
@@ -120,6 +120,9 @@
         this.personnelList = []
         this.personTotal = 10
         this.getPersonList()
+      },
+      toPerson(id) {
+        this.$router.push(`/personnel-message?id=${id}`)
       }
 
     }
