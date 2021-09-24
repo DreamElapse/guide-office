@@ -6,17 +6,17 @@
         <span v-for="(item, index) in navList" :key="'n'+index" :class="['nav-item', {'active':+navIndex === index}]" @click="navClick(index)">{{item}}</span>
       </div>
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <div v-if="navIndex === 0" class="office-context" v-html="officeInfo"></div>
-      <div v-else-if="navIndex === 1" ref="contentDetail" class="content-detail">
+      <div v-if="+id !== 141 && navIndex === 0" class="office-context" v-html="officeInfo"></div>
+      <div v-else-if="(+id === 141 && navIndex === 0) || navIndex === 1" ref="contentDetail" class="content-detail">
         <div class="personnel-title">
           <span v-for="(item, index) in personnelTitle" :key="index" class="item" :style="{flex: item.flex}">{{item.name}}</span>
         </div>
         <div ref="personnelList" class="personnel-list-box">
-          <div v-for="(item, index) in personnelData" :key="'p'+index" class="personnel-item">
+          <div v-for="(item, index) in personnelData" :key="'p'+index" class="personnel-item" @click="toPerson(item.PERSONID)">
             <span class="item" style="flex: 1 ">{{index+1}}</span>
             <p v-for="(val, ind) in personnelTitle.slice(1)" :key="'i'+ind" class="item" :style="{flex: val.flex}">
               <img v-if="val.value === 'PHOTOPATH'" :src="item[val.value]" class="personnel-img">
-              <span v-else>{{item[val.value]}}</span>
+              <span v-else>{{item[val.value].length > 40 ? item[val.value].slice(0, 40)+'...' : item[val.value]}}</span>
             </p>
           </div>
         </div>
@@ -62,6 +62,7 @@
     data() {
       return {
         navList: ['科室简介', '科室指南', '部门风采'],
+        // navList: ['科室指南'],
         personnelTitle,
         pageTitle: '',
         officeInfo: '',
@@ -87,6 +88,7 @@
     created() {
       this.id = this.$route.query.id || ''
       if (this.id) {
+        if (+this.id === 141) this.navList = ['局领导']
         this.getOfficeDetail()
         this.getOfficePersonList()
         this.getOfficeShow()
@@ -193,6 +195,9 @@
       toDetail(id) {
         this.$router.push(`/information-detail?id=${id}&type=1`)
       },
+      toPerson(id) {
+        this.$router.push(`/personnel-message?id=${id}`)
+      }
     }
   }
 </script>
@@ -288,7 +293,7 @@
           text-align: center
         .personnel-img
           width: 7.5vw
-          height: 11.61vw
+          max-height: 11.61vw
     .office-show
       padding: 1vw
       background: #FFF

@@ -2,8 +2,8 @@
   <div class="search-list">
     <div class="search-box">
       <div class="search-content">
-        <input :value="value" type="text" placeholder="请输入科室 、人员、事件进行查询" class="search-input" @input="inputValue">
-        <span v-if="value" class="search-clear" @click="clear"></span>
+        <input :value="newKeyword" type="text" placeholder="请输入科室 、人员、事件进行查询" class="search-input" @input="inputValue">
+        <span v-if="newKeyword" class="search-clear" @click="clear"></span>
       </div>
       <div class="search-btn">
         <span class="btn-text" @click="toSearch">搜索</span>
@@ -59,37 +59,45 @@
     },
     computed: {
       ...Helpers.globalComputed,
-      value() {
-        return this.newKeyword || this.keyword
-      }
+      // value() {
+      //   return this.newKeyword || this.keyword
+      // }
     },
     created() {
-      this.value && this.search()
+      if (this.keyword) {
+        this.newKeyword = this.keyword
+        this.search()
+      }
+      // console.log(this.value, this.keyword)
+      // this.value && 
+    },
+    activated() {
     },
     mounted() {
       this.$refs.searchBox.addEventListener('scroll', this.scrollFun, false)
     },
     beforeDestroy() {
-      this.setKeyword('')
+      // this.setKeyword('')
       this.$refs.searchBox && this.$refs.searchBox.removeEventListener('scroll', this.scrollFun)
     },
     methods: {
       ...Helpers.globalActions,
       inputValue(e) {
         this.newKeyword = e.target.value
-        this.setKeyword('')
+        // this.setKeyword('')
       },
       search() {
-        if (!this.value.trim()) {
+        if (!this.newKeyword.trim()) {
           this.$toast.show('请输入搜索内容')
           return
         }
+        this.setKeyword(this.newKeyword)
         if(this.hasGetmore || this.searchData.length >= +this.searchTotal) return
         this.hasGetmore = true
         let data = {
           Pagesize: 10,
           CurrentPage: this.page,
-          Key: this.value
+          Key: this.newKeyword
         }
         API.Global.searchMessage(data)
           .then(res => {
@@ -117,6 +125,7 @@
         }
       },
       back() {
+        this.setKeyword('')
         this.$router.back()
       },
       clear() {

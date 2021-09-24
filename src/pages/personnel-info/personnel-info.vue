@@ -20,7 +20,7 @@
               <img :src="item.PHOTOPATH" alt="" class="personnel-avat">
               <p class="name">{{item.NAME}}</p>
               <p class="text">{{item.JOBNAME}}</p>
-              <p class="text">{{item.STOREYNAME}}-{{item.ROOMNUMBER}}</p>
+              <p v-if="navIndex !== 0" class="text">{{item.STOREYNAME}}-{{item.ROOMNUMBER}}</p>
             </div>
           </div>
           <img v-else src="../../assets/no_list.png" alt="" class="no-list">
@@ -223,12 +223,14 @@
           font-size: 1.3vw
           color: #999999
           width: 11vw
+          flex: 0 0 11vw
           white-space: nowrap
           padding: 0 4vw 3vw 0
           &:nth-child(5n)
             padding-right: 0
         .personnel-avat
           width: 7vw
+          height: 9.92vw
         .text
           text-overflow: ellipsis
           overflow: hidden

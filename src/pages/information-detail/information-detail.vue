@@ -1,8 +1,12 @@
 <template>
   <div class="information-detail">
     <page-header :title="title"></page-header>
+    <div v-if="showFile" class="message-content">
+      <iframe :src="api+file" frameborder="0" class="file"></iframe>
+      <!-- <iframe :src="'https://view.officeapps.live.com/op/view.aspx?src='+file" frameborder="0" class="file"></iframe> -->
+    </div>
     <!-- eslint-disable-next-line vue/no-v-html -->
-    <div class="message-content" v-html="detail"></div>
+    <div v-else class="message-content" v-html="detail"></div>
   </div>
 </template>
 
@@ -26,6 +30,9 @@
         id: '',
         detail: '',
         title: '',
+        file: '',
+        showFile: false,
+        api: '',
         type: 0
       }
     },
@@ -35,7 +42,12 @@
     created() {
       this.id = this.$route.query.id || ''
       this.type = this.$route.query.type || 0
-      if (this.id) {
+      this.file = this.$route.query.file || ''
+      if (this.file) {
+        this.api = process.env.VUE_APP_API
+        this.title = this.$route.query.name || ''
+        this.showFile = true
+      } else if (this.id) {
         this.getDetail()
       } else {
         this.$router.back()
@@ -79,10 +91,12 @@
       background: #FFF
       border-radius: 1vw
       position: relative
-      display: flex
-      flex-direction: column
-      align-items: center
       overflow-y: scroll
+    .file
+      width: 98%
+      height: 98%
+      margin: 0 auto
+      display: block
      
 
         

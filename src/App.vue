@@ -1,7 +1,9 @@
 <template>
   <transition name="fade">
     <div id="app">
-      <router-view></router-view>
+      <keep-alive include="SEARCH_LIST">
+        <router-view></router-view>
+      </keep-alive>
     </div>
   </transition>
 </template>
@@ -19,7 +21,6 @@
       }
     },
     created() {
-
     },
     methods: {
       // ...globalActions

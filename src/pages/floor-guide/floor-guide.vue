@@ -76,7 +76,6 @@
         this.getFloorDetail()
       },
       scrollNav() {
-        console.log(this.$refs.nav.scrollTop, this.$refs.nav.clientHeight, this.$refs.nav.scrollHeight - this.$refs.nav.clientHeight)
         
         if (this.hasMore) {
           this.$refs.nav.scrollTop = this.$refs.nav.scrollTop + 200

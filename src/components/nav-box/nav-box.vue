@@ -18,12 +18,32 @@
         {{item.name}}
       </div>
     </div>
+    <div v-if="page === 'home'" class="exit-btn" @click="exitHandle">
+      <img src="../../assets/exit.png" alt="" class="exit-icon">
+      <span class="exit-text">退出</span>
+    </div>
     <img v-if="showLogo" src="../../assets/logo.png" alt="" class="logo">
+    <transition name="fade">
+      <div v-if="showExit" class="exit-content">
+        <div class="exit-bg"></div>
+        <div class="exit-context">
+          <p class="exit-close" @click="closeExit"></p>
+          <img src="../../assets/exit_icon.png" alt="" class="exit-icon">
+          <p class="context-title">退出系统</p>
+          <p class="context-tip">为确保系统安全，请使用密码退出</p>
+          <input type="text" placeholder="请输入密码" class="exit-input">
+          <input type="text" placeholder="确认密码" class="exit-input">
+          <p class="exit-confirm" @click="confirmExit">确认退出</p>
+        </div>
+      </div>
+    </transition>
+    
   </div>
  
 </template>
 
 <script type="text/ecmascript-6">
+  import API from '@api'
   const COMPONENT_NAME = 'NAV_BOX'
 
   const TOP_BTN = [
@@ -45,7 +65,8 @@
     data() {
       return {
         topBtn: TOP_BTN,
-        show: false
+        show: false,
+        showExit: true
       }
     },
     computed: {
@@ -73,6 +94,15 @@
       },
       toPage(route) {
         this.$router.push(route)
+      },
+      exitHandle() {
+        this.showExit = !this.showExit
+      },
+      closeExit() {
+        this.showExit = false
+      },
+      confirmExit() {
+        API.Global.checkPassword()
       }
     }
   }
@@ -139,6 +169,105 @@
         &.active
           background: #005EED
           color: #FFF
+    .exit-btn
+      width: 6.25vw
+      height: @width
+      background: #006AF0
+      border-radius: 14px
+      display: flex
+      flex-direction: column
+      align-items: center
+      justify-content: center
+      position: absolute
+      right: 2.97vw
+      top: 1.35vw
+      .exit-icon
+        width: 3.02vw
+        height: 2.81vw
+      .exit-text
+        font-size: 1.28vw
+        font-weight: bold
+        color: #FFF
+        margin-top: 0.52vw
+
+    .exit-bg
+      position: fixed
+      left: 0
+      top: 0
+      width: 100%
+      height: 100%
+      background: rgba(0,0,0,0.8)
+      z-index: 99
+    .exit-context
+      width: 31.14vw  
+      height: 27.15vw
+      background: #FFF
+      border-radius: 14px
+      position: fixed
+      z-index: 100
+      left: 50%
+      top: 50%
+      transform: translate(-50%, -50%)
+      box-sizing: border-box
+      padding: 4.58vw 4.8vw
+      .context-title
+        font-size: 2.19vw
+        color: #5794FF
+      .context-tip
+        font-size: 1.09vw
+        margin-top: 0.9vw
+        color: #9289A6
+        margin-bottom: 1.19vw
+      .exit-input
+        width: 100%
+        height: 2.92vw
+        border: 1px solid #B1B3CC
+        border-radius: 8px
+        color: #333
+        font-size: 1.09vw
+        padding: 0 1.04vw
+        line-height: 2.92vw
+        margin-top: 1vw
+        &::-webkit-input-placeholder
+          color: #B2B2B2
+      .exit-confirm
+        width: 100%
+        height: 2.92vw
+        border-radius: 3vw
+        background: #5794FF
+        text-align: center
+        line-height: 2.92vw
+        color: #FFF
+        font-size: 1.31vw
+        margin-top: 1.82vw
+      .exit-icon
+        width: 2.14vw
+        height: 6.82vw
+        position: absolute
+        right: 5vw
+        top: 0
+      .exit-close
+        width: 1.3vw
+        height: @width
+        position: absolute
+        right: 2.34vw
+        top: 2.08vw
+        &:before,&:after
+          content: ''
+          display: block
+          width: 1px
+          height: 1.5vw
+          transform: rotate(45deg)
+          position: absolute
+          left: 0
+          top: 0
+          background: #9289A6
+        &:after
+          transform: rotate(-45deg)
+
+
+
+
     .logo
       position: absolute
       right: 1.88vw
