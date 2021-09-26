@@ -40,7 +40,10 @@ HTTP.setCallback({
       showToast(res.message || res.msg)
     }
     if (+res.returnCode === ERR_OK && !res.data) {
-      showToast(res.message || res.msg)
+      if (!(/APK/.test(res.msg))) {
+        showToast(res.message || res.msg)
+      }
+      
     }
     // 可自定义处理toast错误 todo
     // if (res.error !== ERR_OK) {

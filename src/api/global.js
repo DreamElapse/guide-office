@@ -6,6 +6,11 @@ export default {
         const url = `/api/DeskQuery`
         return request.post({url, data: args})
     },
+    // 首页-退出
+    checkPassword(args) {
+        const url = `/api/Verify`
+        return request.post({url, data: args})
+    },
     // 搜索结果列表-获取科室人员详细信息
     getPersonnelDetail(args) {
         const url = `/api/QueryOfficePersonDetailByID`
@@ -70,6 +75,5 @@ export default {
     getShowDetail(args) {
         const url = `/api/GetOfficeMienDetailsByMineID`
         return request.post({url, data: args})
-    },
-    
+    }
 }

@@ -31,8 +31,8 @@
           <img src="../../assets/exit_icon.png" alt="" class="exit-icon">
           <p class="context-title">退出系统</p>
           <p class="context-tip">为确保系统安全，请使用密码退出</p>
-          <input type="text" placeholder="请输入密码" class="exit-input">
-          <input type="text" placeholder="确认密码" class="exit-input">
+          <input key="i" v-model="firstPass" type="text" placeholder="请输入密码" class="exit-input">
+          <input key="n" v-model="secondPass" type="text" placeholder="确认密码" class="exit-input">
           <p class="exit-confirm" @click="confirmExit">确认退出</p>
         </div>
       </div>
@@ -66,7 +66,9 @@
       return {
         topBtn: TOP_BTN,
         show: false,
-        showExit: true
+        showExit: false,
+        firstPass: '',
+        secondPass: ''
       }
     },
     computed: {
@@ -102,7 +104,36 @@
         this.showExit = false
       },
       confirmExit() {
-        API.Global.checkPassword()
+        if (!this.firstPass) {
+          this.$toast.show('请输入密码')
+          return
+        } else if (!this.secondPass) {
+          this.$toast.show('请输入确认密码')
+          return
+        } else if (this.secondPass !== this.firstPass) {
+          this.$toast.show('两次输入密码不一致，请从新输入')
+          return
+        } else if (/[\u4E00-\u9FA5]/g.test(this.firstPass)) {
+          this.$toast.show('不支持中文密码')
+          return
+        }
+        API.Global.checkPassword({App_Secret: this.firstPass})
+          .then(res => {
+            if (+res.returnCode === 1) {
+              this.firstPass = ''
+              this.secondPass = ''
+              if (/密码正确/.test(res.msg)) {
+                this.showExit = false
+                // window.open('/empty-page','_self')
+                window.opener=null;
+                window.open('about:blank','_self')
+                window.close()
+              } else {
+                this.$toast.show('密码错误')
+              }
+              
+            }
+          })
       }
     }
   }
@@ -250,7 +281,7 @@
         width: 1.3vw
         height: @width
         position: absolute
-        right: 2.34vw
+        right: 2.2vw
         top: 2.08vw
         &:before,&:after
           content: ''

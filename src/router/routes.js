@@ -79,6 +79,13 @@ export default [
     name: 'information-detail',
     component: () => import('@pages/information-detail/information-detail')
   },
+  // 空白页
+  {
+    path: '/empty-page',
+    name: 'empty-page',
+    component: () => import('@pages/empty-page/empty-page')
+  },
+
 
   {
     path: '/',

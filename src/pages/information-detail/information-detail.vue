@@ -1,12 +1,26 @@
 <template>
   <div class="information-detail">
     <page-header :title="title"></page-header>
-    <div v-if="showFile" class="message-content">
-      <iframe :src="api+file" frameborder="0" class="file"></iframe>
-      <!-- <iframe :src="'https://view.officeapps.live.com/op/view.aspx?src='+file" frameborder="0" class="file"></iframe> -->
-    </div>
+    
     <!-- eslint-disable-next-line vue/no-v-html -->
-    <div v-else class="message-content" v-html="detail"></div>
+    <div class="message-content" v-html="detail" @click="clickContent"></div>
+    <transition nam="fade">
+      <div v-if="showFile" class="message-box">
+        <div class="message-bg"></div>
+        <div class="message-context">
+          <p class="top-title">
+            <img src="../../assets/pdf_icon.png" alt="" class="title-icon">
+            <span class="title-text">{{fileTitle.length > 10 ? fileTitle.slice(0, 10)+'...' : fileTitle}}>附件</span>
+          </p>
+          <p class="close-content" @click="closeFile">
+            <span class="close-tip">关闭预览</span>
+            <span class="close-icon"></span>
+          </p>
+          <iframe :src="api+file" frameborder="0" class="file"></iframe>
+        </div>
+      </div>
+    </transition>
+    
   </div>
 </template>
 
@@ -31,6 +45,7 @@
         detail: '',
         title: '',
         file: '',
+        fileTitle: '',
         showFile: false,
         api: '',
         type: 0
@@ -65,6 +80,22 @@
               this.title = res.data.TITLE.slice(0, 15) + '......'
             }
           })
+      },
+      clickContent(e) {
+        // console.log(e.target.__proto__)
+        console.log(e.target.parentNode.tagName)
+        let tag = e.target.parentNode
+        if ( tag && tag.tagName === 'A') {
+          let href = tag.getAttribute('href')
+          let title = tag.getAttribute('title')
+          this.file = href
+          this.fileTitle = title
+          this.showFile = true
+        }
+        e.preventDefault()
+      },
+      closeFile() {
+        this.showFile = false
       }
     }
   }
@@ -82,7 +113,7 @@
     background: url("../../assets/page_bg.png")
     background-size: 100% 100%
     position: relative
-    .message-content    
+    .message-content
       margin-top: 2.3vh
       width: 100%
       height: 86.8vh
@@ -92,9 +123,76 @@
       border-radius: 1vw
       position: relative
       overflow-y: scroll
+    .message-box
+      .message-bg
+        position: fixed
+        width: 100%
+        height: 100%
+        background: rgba(0,0,0,0.6)
+        left: 0
+        top: 0
+        z-index: 50
+      .message-context
+        position: fixed
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%)
+        width: 88vw
+        padding: 2.75vw 0
+        height: 48vw
+        box-sizing: border-box
+        background: #E3E4E7
+        overflow-y: scroll
+        z-index: 51
+      .top-title
+        display: flex
+        align-items: center
+        justify-content: center
+        position: absolute
+        width: 100%
+        height: 2.75vw
+        line-height: 2.75vw
+        top: 0
+        left: 0
+      .title-icon
+        width: 1.36vw
+        height: 1.7vw
+        object-fit: contain
+      .title-text
+        font-size: 0.96vw
+        color: #333333
+        margin-left: 0.8vw
+      .close-content
+        position: absolute
+        right: 1.1vw
+        top: 0
+        height: 2.75vw
+        line-height: 2.75vw
+        font-size: 0.96vw
+        color: #333
+        display: flex
+        align-items: center
+      .close-icon
+        margin-left: 1.4vw
+        width: 1.5vw
+        height: @width
+        position: relative
+        &:before,&:after
+          content: ''
+          display: block
+          position: absolute
+          left: 0
+          top: 0
+          transform: rotate(45deg)
+          width: 1px
+          height: 1.4vw
+          background: #333
+        &:after
+          transform: rotate(-45deg)
+
     .file
-      width: 98%
-      height: 98%
+      width: 100%
+      height: 100%
       margin: 0 auto
       display: block
      

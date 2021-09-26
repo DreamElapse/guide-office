@@ -6,7 +6,7 @@
       <div class="search-content">
         <img src="../../assets/search.png" alt="" class="search-icon">
         <span class="search-line"></span>
-        <input v-model="keyword" type="text" placeholder="请输入科室 、人员、事件进行查询" class="search-input">
+        <input key="m" v-model="keyword" type="text" placeholder="请输入科室 、人员、事件进行查询" class="search-input">
       </div>
       <span class="search-btn" @click="search">搜索</span>
     </div>
@@ -39,7 +39,7 @@
     },
     watch: {},
     created() {
-      
+      // console.log(this.keyword, 111)
     },
     mounted() {
       
