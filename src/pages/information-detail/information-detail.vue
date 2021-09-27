@@ -16,7 +16,7 @@
             <span class="close-tip">关闭预览</span>
             <span class="close-icon"></span>
           </p>
-          <iframe :src="api+file" frameborder="0" class="file"></iframe>
+          <iframe ref="iframe" :src="api+file" frameborder="0" class="file"></iframe>
         </div>
       </div>
     </transition>
@@ -82,17 +82,27 @@
           })
       },
       clickContent(e) {
+        e.preventDefault()
         // console.log(e.target.__proto__)
-        console.log(e.target.parentNode.tagName)
-        let tag = e.target.parentNode
+        let tag = e.target.tagName === 'A' ? e.target : e.target.parentNode
         if ( tag && tag.tagName === 'A') {
           let href = tag.getAttribute('href')
           let title = tag.getAttribute('title')
           this.file = href
           this.fileTitle = title
           this.showFile = true
+          this.$loading.show('加载中...')
+          // this.$nextTick(() => {
+          //   let iframe = this.$refs.iframe
+          //   iframe.onload = function() {
+          //     console.log(2222)
+          //   }
+          // })
+          setTimeout(() => {
+            this.$loading.hide()
+          }, 600)
         }
-        e.preventDefault()
+        
       },
       closeFile() {
         this.showFile = false

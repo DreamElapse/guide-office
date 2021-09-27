@@ -5,10 +5,10 @@
       <div class="weui-loading-box">
         <div class="wrapper">
           <!--<div class="weui-_loading"></div>-->
-          <img width="38" height="38" src="./loading.gif">
+          <img class="loading-icon" src="./loading.gif">
         </div>
       </div>
-      <p class="weui_toast_content"></p>
+      <p class="weui_toast_content">{{content}}</p>
     </div>
   </div>
 </template>
@@ -55,13 +55,13 @@
     left: 0
 
   .weui_loading_toast .weui_toast
-    width: 122px
-    min-height: 122px
+    width: 9vw
+    min-height: 8vw
 
   .weui_toast
     position: fixed
     z-index: 1900
-    top: 180px
+    top: 40%
     left: 50%
     -webkit-transform: translateX(-50%)
     transform: translateX(-50%)
@@ -70,12 +70,9 @@
     border-radius: 5px
     color: #FFFFFF
 
-  .weui_toast_content
-    margin: 15px 0
-
   .weui_loading_toast .weui_toast_content
-    margin-top: 64%
-    font-size: 14px
+    margin: 6.2vw 0 1vw
+    font-size: 1.47vw
 
   .weui_loading
     position: absolute
@@ -86,10 +83,13 @@
 
   .wrapper
     position: absolute
-    top: 28px
+    top: 1.2vw
     left: 0
     right: 0
     bottom: 0
+  .loading-icon
+    width: 4vw
+    height: 4vw 
 
   .weui-loading
     width: 38px
