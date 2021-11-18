@@ -1,7 +1,7 @@
 <template>
   <div class="bottom-btn">
     <div class="bottom-box">
-      <p class="box-text" @click="menuHandle"><span>功能视图</span><span :class="['box-icon', {'active': showMenu}]"></span></p>
+      <p id="menuBox" class="box-text" @click.stop="menuHandle"><span>功能视图</span><span :class="['box-icon', {'active': showMenu}]"></span></p>
       <div :class="['btn-box', {'active': showMenu}]">
         <div v-for="(item, index) in btnList" :key="'b'+index" class="btn-item" @click="toPage(item.route)">
           <p class="icon-box">
@@ -44,8 +44,11 @@
       menuHandle() {
         this.showMenu = !this.showMenu
       },
+      closeMenu() {
+        this.showMenu = false
+      },
       toPage(route) {
-        this.menuHandle()
+        this.closeMenu()
         let thisPage = this.$route.name
         if(route.includes(thisPage)) return
         this.$router.push(route)

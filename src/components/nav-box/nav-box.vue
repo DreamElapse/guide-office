@@ -95,7 +95,7 @@
         this.navIndex = index
       },
       toPage(route, index) {
-        if (+index === +this.navIndex) return
+        if (index === this.navIndex) return
         this.$router.push(route)
       },
       exitHandle() {

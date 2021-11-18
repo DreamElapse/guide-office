@@ -1,8 +1,8 @@
 <template>
-  <div class="index">
+  <div class="index" @click="pageClick">
     <nav-box></nav-box>
     <router-view></router-view>
-    <bottom-btn></bottom-btn>
+    <bottom-btn ref="bottomBtn"></bottom-btn>
   </div>
 </template>
 
@@ -43,6 +43,9 @@
     },
     methods: {
       // ...Helpers.methods,
+      pageClick(e) {
+        this.$refs.bottomBtn.closeMenu()
+      }
     }
   }
 </script>
