@@ -167,12 +167,15 @@
           this.getOfficePersonList()
           this.$nextTick(() => {
             this.$refs.contentDetail.addEventListener('scroll', this.officeFun, false)
+            this.$refs.contentDetail.scrollTop = 0
           })
+          
         } else if (index === 2) {
           this.showTotal = 10
           this.getOfficeShow()
           this.$nextTick(() => {
             this.$refs.officeShow.addEventListener('scroll', this.showFun, false)
+            this.$refs.officeShow.scrollTop = 0
           })
         }
       },

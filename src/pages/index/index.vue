@@ -2,6 +2,7 @@
   <div class="index">
     <nav-box></nav-box>
     <router-view></router-view>
+    <bottom-btn></bottom-btn>
   </div>
 </template>
 
@@ -9,6 +10,7 @@
   // import * as Helpers from './modules/helpers'
   // import API from '@api'
   import NavBox from '@components/nav-box/nav-box'
+  import bottomBtn from '@components/bottom-btn/bottom-btn'
 
   const PAGE_NAME = 'INDEX'
   const TITLE = '首页'
@@ -19,7 +21,8 @@
       title: TITLE
     },
     components: {
-      NavBox
+      NavBox,
+      bottomBtn
     },
     data() {
       return {

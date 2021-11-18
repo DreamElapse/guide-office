@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img src="../../assets/logo.png" alt="" class="logo">
+    <img src="../../assets/logo_new.png" alt="" class="logo">
     <span class="title">欢迎使用</span>
     <div class="search-box">
       <div class="search-content">
@@ -71,15 +71,15 @@
     flex-direction: column
     align-items: center
     justify-content: space-between
-    padding: 27.59vh 0 3.33vh
+    padding: 19.72vh 0 10.33vh
     box-sizing: border-box
     .logo
-      width: 11.46vw
-      height: 11.46vw
-      margin-bottom: 5.83vh 
+      width: 18.02vw
+      height: 21.98vw
+      margin-bottom: 3.7vh 
     .title
-      font-size: 7.23vw
-      margin-bottom: 5.65vh
+      font-size: 2.17vw
+      margin-bottom: 5.93vh
       color: #FFF
     .search-box
       display: flex
@@ -87,7 +87,7 @@
       justify-content: center
       height: 4.66vw
       line-height: 4.66vw
-      margin-bottom: 13.5vh
+      margin-bottom: 6.39vh
       .search-content
         background: #FFF
         height: 4.66vw

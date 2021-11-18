@@ -28,7 +28,7 @@
         <img v-else src="../../assets/no_list.png" alt="" class="no-list">
       </div>
     </div>
-    <div class="bottom-text">操作指引：点击首页 -- 选择查询主列表 -- 选择所属部门 -- 选择列表内容查看办事指南</div>
+    <!-- <div class="bottom-text">操作指引：点击首页 -- 选择查询主列表 -- 选择所属部门 -- 选择列表内容查看办事指南</div> -->
   </div>
 </template>
 

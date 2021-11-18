@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="top-nav">
-      <div v-for="(item, index) in topBtn" :key="'n'+index" :class="['nav-item', {'active': navIndex === index}]" @click="toPage(item.route)">
+      <div v-for="(item, index) in topBtn" :key="'n'+index" :class="['nav-item', {'active': navIndex === index}]" @click="toPage(item.route, index)">
         {{item.name}}
       </div>
     </div>
@@ -94,7 +94,8 @@
       navClick(index) {
         this.navIndex = index
       },
-      toPage(route) {
+      toPage(route, index) {
+        if (+index === +this.navIndex) return
         this.$router.push(route)
       },
       exitHandle() {
